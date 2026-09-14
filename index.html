@@ -1,0 +1,790 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Анжелина Кот — визуальный редактор маркетплейсов. Работаю с визуалом, структурой и логикой карточек товаров для Wildberries и Ozon.">
+  <title>Анжелина Кот — визуальный редактор маркетплейсов</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #f7f1ff;
+      --muted: #b9aec7;
+      --cream: #120e18;
+      --violet: #a98cff;
+      --violet-dark: #8f71ef;
+      --peach: #ffad86;
+      --lilac: #302641;
+      --line: rgba(236, 225, 255, .12);
+      --shadow: 0 24px 70px rgba(0, 0, 0, .32);
+      --radius: 28px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 5% 3%, rgba(143, 74, 83, .24), transparent 31rem),
+        radial-gradient(circle at 95% 22%, rgba(109, 78, 183, .24), transparent 34rem),
+        var(--cream);
+      font-family: "Manrope", sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    a { color: inherit; }
+    .container { width: min(1160px, calc(100% - 40px)); margin-inline: auto; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      margin: 0 0 18px;
+      color: var(--violet-dark);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { content: ""; width: 26px; height: 2px; background: currentColor; border-radius: 9px; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2 { font-family: "Unbounded", sans-serif; line-height: 1.08; letter-spacing: -.045em; }
+    h1 { max-width: 880px; margin-bottom: 24px; font-size: clamp(43px, 7.2vw, 92px); }
+    h2 { margin-bottom: 22px; font-size: clamp(32px, 4.3vw, 58px); }
+    h3 { margin-bottom: 10px; font-size: 21px; line-height: 1.25; }
+    .gradient-text {
+      color: transparent;
+      background: linear-gradient(110deg, var(--violet-dark), #9878ef 50%, #ee8a68);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 58px;
+      padding: 0 25px;
+      border: 0;
+      border-radius: 18px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--violet), var(--violet-dark));
+      box-shadow: 0 14px 32px rgba(94, 66, 196, .28);
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .25s ease, box-shadow .25s ease;
+    }
+    .btn::after { content: "↗"; font-size: 20px; }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 19px 40px rgba(94, 66, 196, .35); }
+    .btn:focus-visible { outline: 3px solid rgba(116, 84, 232, .28); outline-offset: 4px; }
+
+    header { padding: 26px 0; }
+    nav { display: flex; align-items: center; justify-content: space-between; }
+    .logo { display: flex; align-items: center; gap: 12px; font-weight: 800; text-decoration: none; }
+    .logo-mark {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 14px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--violet), var(--peach));
+      font-family: "Unbounded", sans-serif;
+      font-size: 14px;
+      box-shadow: 0 10px 25px rgba(94, 66, 196, .2);
+    }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-link { color: var(--muted); font-size: 14px; font-weight: 700; text-decoration: none; transition: color .2s ease; }
+    .nav-link:hover { color: var(--violet-dark); }
+
+    .hero { min-height: 760px; padding: 86px 0 105px; position: relative; }
+    .hero-copy { position: relative; z-index: 2; }
+    .hero-subtitle { max-width: 650px; margin-bottom: 32px; color: var(--muted); font-size: clamp(18px, 2vw, 23px); }
+    .hero-actions { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
+    .hero-note { display: flex; align-items: center; gap: 10px; color: var(--muted); font-size: 14px; font-weight: 700; }
+    .hero-note span { display: block; width: 10px; height: 10px; border-radius: 50%; background: #58b881; box-shadow: 0 0 0 6px rgba(88, 184, 129, .13); }
+    .usp-row { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .usp-chip { padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; color: #d9cfee; background: rgba(35,27,47,.62); font-size: 12px; font-weight: 800; }
+    .floating-card {
+      position: absolute;
+      right: max(3vw, 20px);
+      bottom: 32px;
+      width: min(340px, 34vw);
+      padding: 24px;
+      border: 1px solid rgba(255,255,255,.85);
+      border-radius: 26px;
+      background: rgba(34,27,45,.82);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(14px);
+      transform: rotate(-3deg);
+      animation: float 5s ease-in-out infinite;
+    }
+    .mock-label { display: flex; justify-content: space-between; margin-bottom: 26px; color: var(--muted); font-size: 12px; font-weight: 800; text-transform: uppercase; }
+    .mock-title { margin-bottom: 8px; font-family: "Unbounded", sans-serif; font-size: 24px; line-height: 1.2; }
+    .mock-bar { height: 10px; margin-top: 12px; border-radius: 99px; background: var(--lilac); overflow: hidden; }
+    .mock-bar span { display: block; width: 82%; height: 100%; background: linear-gradient(90deg, var(--violet), var(--peach)); }
+    @keyframes float { 50% { transform: rotate(-1deg) translateY(-11px); } }
+
+    section { padding: 105px 0; }
+    .about-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 64px; align-items: center; }
+    .portrait-card {
+      min-height: 460px;
+      position: relative;
+      display: flex;
+      align-items: flex-end;
+      padding: 34px;
+      overflow: hidden;
+      border-radius: 38px;
+      background: #e8defb;
+      box-shadow: var(--shadow);
+      transition: transform .45s cubic-bezier(.2,.8,.2,1), box-shadow .45s ease;
+    }
+    .portrait-card:hover { transform: translateY(-7px) rotate(-.4deg); box-shadow: 0 34px 80px rgba(0,0,0,.38); }
+    .portrait-card > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 22%; transition: transform .65s cubic-bezier(.2,.8,.2,1); }
+    .portrait-card:hover > img { transform: scale(1.025); }
+    .portrait-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, rgba(25,18,39,.78)); }
+    .portrait-caption { position: relative; z-index: 1; }
+    .portrait-caption strong { display: block; color: #fff; font-family: "Unbounded", sans-serif; font-size: 25px; }
+    .portrait-caption span { color: rgba(255,255,255,.76); font-weight: 700; }
+    .about-text > p { color: var(--muted); font-size: 18px; }
+    .signature { margin-top: 26px; color: var(--violet-dark); font-weight: 800; }
+
+    .advantages { background: rgba(27,21,36,.78); border-block: 1px solid var(--line); }
+    .section-head { max-width: 760px; margin-bottom: 48px; }
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; }
+    .card { position: relative; overflow: hidden; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(35,27,47,.88); box-shadow: 0 16px 44px rgba(0,0,0,.18); transition: transform .35s ease, box-shadow .35s ease, border-color .35s ease; }
+    .card:hover { transform: translateY(-9px) rotate(.35deg); border-color: rgba(169,140,255,.35); box-shadow: 0 25px 60px rgba(0,0,0,.30); }
+    .card-visual { position: relative; height: 205px; overflow: hidden; background: #1a1520; }
+    .card-visual::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 45%, rgba(20,14,27,.62)); }
+    .card-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
+    .card:hover .card-visual img { transform: scale(1.07); }
+    .visual-badge { position: absolute; z-index: 2; left: 16px; bottom: 15px; padding: 8px 11px; border: 1px solid rgba(255,255,255,.25); border-radius: 12px; color: #fff; background: rgba(26,18,34,.68); backdrop-filter: blur(10px); font-size: 12px; font-weight: 800; }
+    .mini-chart { position: absolute; z-index: 2; right: 15px; bottom: 14px; display: flex; align-items: flex-end; gap: 4px; height: 46px; padding: 8px 9px; border-radius: 11px; background: rgba(25,18,33,.72); backdrop-filter: blur(8px); }
+    .mini-chart i { display: block; width: 7px; border-radius: 6px 6px 2px 2px; background: linear-gradient(180deg, var(--peach), var(--violet)); animation: bars 2.4s ease-in-out infinite alternate; }
+    .mini-chart i:nth-child(1) { height: 30%; animation-delay: -.8s; } .mini-chart i:nth-child(2) { height: 52%; animation-delay: -.4s; } .mini-chart i:nth-child(3) { height: 74%; animation-delay: -1.1s; } .mini-chart i:nth-child(4) { height: 100%; }
+    @keyframes bars { 50% { transform: scaleY(.72); transform-origin: bottom; } }
+    .card-body { padding: 25px 27px 29px; }
+    .card p { margin-bottom: 0; color: var(--muted); }
+
+    .process { position: relative; }
+    .process-intro { display: grid; grid-template-columns: 1fr .72fr; gap: 55px; align-items: end; margin-bottom: 45px; }
+    .process-intro .section-head { margin-bottom: 0; }
+    .process-offer { padding: 22px 24px; border: 1px solid rgba(169,140,255,.24); border-radius: 22px; color: #ddd2ee; background: linear-gradient(135deg, rgba(169,140,255,.12), rgba(255,173,134,.07)); font-weight: 700; }
+    .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; counter-reset: steps; }
+    .step { position: relative; min-height: 215px; padding: 28px; overflow: hidden; border: 1px solid var(--line); border-radius: 25px; background: linear-gradient(145deg, rgba(38,29,49,.96), rgba(27,22,35,.94)); transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; counter-increment: steps; }
+    .step:hover { transform: translateY(-7px); border-color: rgba(169,140,255,.38); box-shadow: 0 22px 54px rgba(0,0,0,.25); }
+    .step::before { content: "0" counter(steps); display: block; margin-bottom: 25px; color: var(--peach); font-family: "Unbounded", sans-serif; font-size: 13px; letter-spacing: .08em; }
+    .step::after { content: ""; position: absolute; width: 110px; height: 110px; right: -50px; bottom: -55px; border-radius: 50%; background: radial-gradient(circle, rgba(169,140,255,.19), transparent 70%); transition: transform .45s ease; }
+    .step:hover::after { transform: scale(1.5); }
+    .step h3 { font-size: 18px; }
+    .step p { margin-bottom: 0; color: var(--muted); font-size: 14px; }
+    .included { display: grid; grid-template-columns: .85fr 1.15fr; gap: 35px; align-items: center; margin-top: 25px; padding: 34px; border: 1px solid var(--line); border-radius: 28px; background: rgba(24,19,31,.78); }
+    .included h3 { margin-bottom: 0; font-family: "Unbounded", sans-serif; font-size: clamp(23px, 3vw, 34px); }
+    .included-list { display: flex; flex-wrap: wrap; gap: 10px; }
+    .included-list span { padding: 10px 13px; border-radius: 12px; color: #e6dcf4; background: rgba(169,140,255,.11); font-size: 13px; font-weight: 700; }
+    .trust-note { margin: 18px 0 0; color: var(--muted); font-size: 13px; }
+
+    .diagnostic { background: rgba(27,21,36,.78); border-block: 1px solid var(--line); }
+    .diagnostic-head { max-width: 860px; margin-bottom: 44px; }
+    .myths-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .myth { position: relative; padding: 27px; overflow: hidden; border: 1px solid var(--line); border-radius: 23px; background: rgba(38,29,49,.88); transition: transform .35s ease, border-color .35s ease; }
+    .myth:hover { transform: translateY(-5px); border-color: rgba(255,173,134,.34); }
+    .myth-label { display: block; margin-bottom: 10px; color: #ff9d86; font-size: 12px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .myth h3 { font-size: 17px; }
+    .myth p { margin-bottom: 0; color: var(--muted); font-size: 14px; }
+    .check-panel { display: grid; grid-template-columns: 1.1fr .9fr; gap: 30px; margin-top: 25px; padding: 36px; border: 1px solid rgba(169,140,255,.23); border-radius: 30px; background: linear-gradient(145deg, #251d30, #19141f); box-shadow: var(--shadow); }
+    .check-panel h3 { margin-bottom: 8px; font-family: "Unbounded", sans-serif; font-size: clamp(23px, 3vw, 34px); }
+    .check-lead { margin-bottom: 24px; color: var(--muted); }
+    .check-list { display: grid; gap: 10px; }
+    .check-item { display: flex; gap: 13px; align-items: flex-start; padding: 14px 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.025); cursor: pointer; transition: background .25s ease, border-color .25s ease, transform .25s ease; }
+    .check-item:hover { transform: translateX(4px); border-color: rgba(169,140,255,.32); }
+    .check-item:has(input:checked) { border-color: rgba(93,195,139,.34); background: rgba(93,195,139,.08); }
+    .check-item input { position: absolute; opacity: 0; pointer-events: none; }
+    .custom-check { flex: 0 0 auto; display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid rgba(217,207,238,.28); border-radius: 7px; color: transparent; background: #17121d; transition: .25s ease; }
+    .custom-check::after { content: "✓"; font-size: 14px; font-weight: 900; }
+    .check-item input:checked + .custom-check { color: #fff; border-color: #5dc38b; background: #429b6b; transform: scale(1.05); }
+    .check-text { color: #e7ddf2; font-size: 14px; font-weight: 700; }
+    .score-box { display: flex; flex-direction: column; justify-content: center; min-height: 100%; padding: 30px; border-radius: 24px; background: radial-gradient(circle at 80% 10%, rgba(169,140,255,.23), transparent 45%), rgba(169,140,255,.08); }
+    .score-label { color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .score { margin: 14px 0; font-family: "Unbounded", sans-serif; font-size: clamp(54px, 7vw, 82px); line-height: 1; }
+    .score span { color: var(--violet); }
+    .score-message { margin-bottom: 24px; color: #d9cfe6; font-size: 16px; }
+    .score-box .btn { align-self: flex-start; }
+
+    .portfolio { padding-bottom: 120px; }
+    .portfolio-head { display: flex; justify-content: space-between; gap: 36px; align-items: flex-end; margin-bottom: 44px; }
+    .portfolio-head .section-head { margin-bottom: 0; }
+    .portfolio-note { max-width: 310px; margin: 0 0 8px; color: var(--muted); }
+    .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+    .work-card { position: relative; aspect-ratio: 3 / 4; min-height: 0; margin: 0; overflow: hidden; border-radius: 26px; background: #ded7e9; box-shadow: 0 15px 44px rgba(59,38,94,.10); }
+    .work-card img { display: block; width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; transition: transform .55s cubic-bezier(.2,.8,.2,1); }
+    .work-card:hover img { transform: scale(1.035); }
+    .work-card figcaption { position: absolute; inset: auto 15px 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.35); border-radius: 16px; color: #fff; background: rgba(27,20,37,.72); backdrop-filter: blur(12px); font-size: 13px; font-weight: 800; opacity: 0; transform: translateY(8px); transition: .3s ease; }
+    .work-card:hover figcaption { opacity: 1; transform: none; }
+    .work-card figcaption span:last-child { color: rgba(255,255,255,.65); font-weight: 600; }
+
+    .reviews-head { display: flex; justify-content: space-between; gap: 30px; align-items: flex-end; margin-bottom: 44px; }
+    .reviews-head .section-head { margin-bottom: 0; }
+    .reviews-metric { color: var(--violet); font-family: "Unbounded", sans-serif; font-size: 32px; white-space: nowrap; }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .review-card { position: relative; min-height: 360px; display: flex; flex-direction: column; margin: 0; padding: 32px; overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: linear-gradient(145deg, #251d30, #1b1623); box-shadow: 0 18px 48px rgba(0,0,0,.22); transition: transform .4s cubic-bezier(.2,.8,.2,1), border-color .4s ease; }
+    .review-card:nth-child(2) { transform: translateY(18px); }
+    .review-card:hover { transform: translateY(-8px) rotate(-.45deg); border-color: rgba(255,173,134,.38); }
+    .review-card:nth-child(2):hover { transform: translateY(8px) rotate(.45deg); }
+    .review-card::before { content: ""; position: absolute; width: 170px; height: 170px; right: -85px; top: -85px; border-radius: 50%; background: radial-gradient(circle, rgba(169,140,255,.2), transparent 68%); transition: transform .55s ease; }
+    .review-card:hover::before { transform: scale(1.5); }
+    .quote-mark { color: var(--peach); font-family: Georgia, serif; font-size: 66px; line-height: .55; }
+    blockquote p { margin: 21px 0 28px; font-size: 17px; font-weight: 600; line-height: 1.65; }
+    .review-result { display: inline-flex; align-self: flex-start; margin-bottom: 24px; padding: 7px 11px; border-radius: 10px; color: #d9cdff; background: rgba(169,140,255,.12); font-size: 12px; font-weight: 800; }
+    cite { display: flex; align-items: center; gap: 13px; color: var(--muted); font-style: normal; font-weight: 700; }
+    .avatar { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 50%; color: #fff; background: linear-gradient(135deg, var(--violet), var(--peach)); }
+
+    .pricing { position: relative; overflow: hidden; }
+    .pricing::before { content: ""; position: absolute; width: 520px; height: 520px; left: -260px; top: 12%; border-radius: 50%; background: radial-gradient(circle, rgba(255,173,134,.13), transparent 68%); pointer-events: none; }
+    .pricing-intro { max-width: 720px; color: var(--muted); font-size: 18px; }
+    .pricing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 42px; }
+    .price-card { position: relative; display: flex; min-height: 100%; padding: 30px; overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: linear-gradient(145deg, rgba(47,37,61,.94), rgba(28,22,37,.96)); box-shadow: 0 18px 55px rgba(0,0,0,.2); transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; flex-direction: column; }
+    .price-card:hover { transform: translateY(-8px); border-color: rgba(169,140,255,.42); box-shadow: 0 28px 70px rgba(0,0,0,.3); }
+    .price-card.featured { border-color: rgba(255,173,134,.42); background: linear-gradient(145deg, rgba(89,56,83,.96), rgba(43,30,65,.98)); }
+    .price-card.featured::before { content: "Популярный"; position: absolute; right: 18px; top: 18px; padding: 6px 10px; border-radius: 999px; color: #25182f; background: var(--peach); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .price-kicker { margin-bottom: 13px; color: var(--violet); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .price-card h3 { padding-right: 72px; font-size: 24px; }
+    .price { margin: 8px 0 20px; font-family: "Unbounded", sans-serif; font-size: clamp(30px, 3vw, 40px); line-height: 1; }
+    .price small { color: var(--muted); font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 700; }
+    .price-list { display: grid; gap: 11px; margin: 0 0 26px; padding: 0; color: #ddd4e8; list-style: none; }
+    .price-list li { display: flex; gap: 10px; }
+    .price-list li::before { content: "✓"; color: var(--peach); font-weight: 900; }
+    .price-card .btn { width: 100%; margin-top: auto; }
+    .extras { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-top: 18px; }
+    .extra-pill { padding: 18px; border: 1px solid var(--line); border-radius: 20px; background: rgba(38,29,49,.72); }
+    .extra-pill span { display: block; color: var(--muted); font-size: 12px; }
+    .extra-pill strong { display: block; margin-top: 4px; color: #ffd4bc; font-size: 17px; }
+    .pricing-note { max-width: 920px; margin: 22px 0 0; padding: 18px 22px; border-left: 3px solid var(--violet); border-radius: 0 16px 16px 0; color: var(--muted); background: rgba(169,140,255,.08); }
+    .calculator { display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(280px, .65fr); gap: 24px; margin-top: 38px; padding: clamp(24px, 4vw, 42px); border: 1px solid rgba(169,140,255,.3); border-radius: 32px; background: linear-gradient(145deg, rgba(49,38,64,.94), rgba(27,21,36,.98)); box-shadow: var(--shadow); }
+    .calculator-head { grid-column: 1 / -1; }
+    .calculator-head h3 { margin-bottom: 7px; font-family: "Unbounded", sans-serif; font-size: clamp(24px, 3.2vw, 35px); }
+    .calculator-head p { margin: 0; color: var(--muted); }
+    .calc-fields { display: grid; gap: 18px; }
+    .calc-field { display: grid; gap: 8px; }
+    .calc-field > span, .calc-label { color: #ddd4e8; font-size: 13px; font-weight: 800; }
+    .calc-field select, .calc-field input[type="number"] { width: 100%; min-height: 52px; padding: 0 15px; border: 1px solid var(--line); border-radius: 15px; color: var(--ink); background: #211a2b; font: inherit; font-weight: 700; }
+    .calc-field select:focus-visible, .calc-field input:focus-visible { outline: 3px solid rgba(169,140,255,.28); border-color: var(--violet); }
+    .calc-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .calc-check { display: flex; align-items: flex-start; gap: 11px; padding: 15px; border: 1px solid var(--line); border-radius: 16px; color: var(--muted); background: rgba(255,255,255,.025); cursor: pointer; }
+    .calc-check input { width: 19px; height: 19px; margin: 2px 0 0; accent-color: var(--violet); }
+    .calc-check strong { display: block; color: var(--ink); font-size: 14px; }
+    .calc-check small { display: block; margin-top: 3px; }
+    .calc-result { display: flex; padding: 28px; border: 1px solid rgba(255,173,134,.3); border-radius: 24px; background: linear-gradient(145deg, rgba(255,173,134,.1), rgba(169,140,255,.12)); flex-direction: column; justify-content: center; }
+    .calc-result > span { color: var(--muted); font-size: 13px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+    .calc-total { margin: 12px 0 10px; font-family: "Unbounded", sans-serif; font-size: clamp(34px, 4vw, 48px); line-height: 1; }
+    .calc-summary { min-height: 48px; margin-bottom: 22px; color: var(--muted); font-size: 13px; }
+    .calc-disclaimer { margin: 15px 0 0; color: #968aa5; font-size: 11px; }
+
+    .faq { background: rgba(27,21,36,.78); border-block: 1px solid var(--line); }
+    .faq-intro { margin-bottom: 0; color: var(--muted); font-size: 18px; }
+    .faq-list { display: grid; gap: 12px; max-width: 920px; }
+    .faq-item { border: 1px solid var(--line); border-radius: 20px; background: rgba(38,29,49,.88); }
+    .faq-item[open] { border-color: rgba(169,140,255,.4); }
+    .faq-item summary { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px clamp(18px, 3vw, 28px); border-radius: 20px; font-size: clamp(16px, 2vw, 18px); font-weight: 800; line-height: 1.45; list-style: none; cursor: pointer; }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after { content: "+"; flex: 0 0 28px; color: var(--peach); font-size: 26px; font-weight: 500; text-align: center; }
+    .faq-item[open] summary::after { content: "−"; }
+    .faq-item summary:hover { color: var(--violet); }
+    .faq-item summary:focus-visible { outline: 3px solid var(--violet); outline-offset: 4px; }
+    .faq-item p { max-width: 790px; margin: 0; padding: 0 clamp(18px, 3vw, 28px) 24px; color: var(--muted); }
+    .faq-contact { display: flex; align-items: center; justify-content: space-between; gap: 24px; max-width: 920px; margin-top: 22px; padding: 24px clamp(20px, 4vw, 34px); border: 1px solid rgba(255,173,134,.25); border-radius: 24px; background: linear-gradient(135deg, rgba(255,173,134,.1), rgba(169,140,255,.12)); }
+    .faq-contact h3 { margin: 0 0 7px; font-size: clamp(19px, 2.4vw, 24px); }
+    .faq-contact p { margin: 0; color: var(--muted); }
+    .faq-contact .btn { flex: 0 0 auto; }
+
+    .cta { padding-top: 55px; }
+    .cta-box {
+      position: relative;
+      padding: 78px 7%;
+      overflow: hidden;
+      border-radius: 42px;
+      color: #fff;
+      background: linear-gradient(135deg, #261b4d, #5d43b6 58%, #914e70);
+      box-shadow: 0 30px 80px rgba(73, 47, 139, .28);
+      transition: transform .4s ease, box-shadow .4s ease;
+    }
+    .cta-box:hover { transform: translateY(-5px); box-shadow: 0 38px 95px rgba(73,47,139,.38); }
+    .cta-box::after { content: "✦"; position: absolute; right: 7%; top: 2%; color: rgba(255,255,255,.12); font-size: 220px; }
+    .cta-box h2, .cta-box p, .cta-box .btn { position: relative; z-index: 1; }
+    .cta-box h2 { max-width: 770px; }
+    .cta-box p { max-width: 600px; margin-bottom: 30px; color: rgba(255,255,255,.76); font-size: 19px; }
+    .cta-box .btn { color: var(--violet-dark); background: #fff; box-shadow: none; }
+
+    footer { padding: 35px 0 44px; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 13px; }
+
+    .contact-dock { position: fixed; z-index: 50; right: 18px; top: 50%; display: grid; gap: 12px; transform: translateY(-50%); }
+    .contact-pill { display: flex; align-items: center; gap: 12px; min-width: 242px; padding: 13px 18px 13px 12px; border: 1px solid rgba(255,255,255,.22); border-radius: 19px; color: #fff; background: rgba(31,24,42,.94); box-shadow: 0 16px 44px rgba(0,0,0,.42); backdrop-filter: blur(14px); text-decoration: none; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; animation: contactFloat 4.5s ease-in-out infinite; }
+    .contact-pill:nth-child(2) { animation-delay: -2.1s; }
+    .contact-pill:hover { transform: translateX(-7px) translateY(-2px); border-color: rgba(169,140,255,.52); box-shadow: 0 20px 50px rgba(0,0,0,.44); }
+    .contact-icon { flex: 0 0 auto; display: grid; width: 42px; height: 42px; place-items: center; border-radius: 13px; color: #fff; font-family: "Unbounded", sans-serif; font-size: 13px; background: linear-gradient(135deg, #6f8cff, #a98cff); box-shadow: inset 0 1px 0 rgba(255,255,255,.22); }
+    .contact-pill.telegram .contact-icon { background: linear-gradient(135deg, #2aabee, #6d7cff); }
+    .contact-copy { display: grid; line-height: 1.25; }
+    .contact-copy small { color: #b9aec7; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
+    .contact-copy strong { margin-top: 3px; font-size: 14px; }
+    @keyframes contactFloat { 50% { transform: translateY(-5px); } }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .floating-card, .mini-chart i, .contact-pill { animation: none; } * { transition: none !important; } }
+    @media (max-width: 820px) {
+      .hero { min-height: auto; padding: 58px 0 285px; }
+      .floating-card { right: 20px; bottom: 42px; width: min(340px, calc(100% - 40px)); }
+      .about-grid { grid-template-columns: 1fr; }
+      .about-grid { gap: 38px; }
+      .portrait-card { min-height: 370px; }
+      .cards { grid-template-columns: 1fr; }
+      .process-intro, .included { grid-template-columns: 1fr; }
+      .process-grid { grid-template-columns: repeat(2, 1fr); }
+      .check-panel { grid-template-columns: 1fr; }
+      .portfolio-head { align-items: flex-start; flex-direction: column; }
+      .works-grid { grid-template-columns: repeat(2, 1fr); }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .extras { grid-template-columns: repeat(2, 1fr); }
+      .calculator { grid-template-columns: 1fr; }
+      .calculator-head { grid-column: auto; }
+      .review-card, .review-card:nth-child(2) { min-height: auto; transform: none; }
+    }
+    @media (max-width: 560px) {
+      .container { width: min(100% - 28px, 1160px); }
+      .extras { grid-template-columns: 1fr; }
+      .calc-options { grid-template-columns: 1fr; }
+      .faq-contact { align-items: flex-start; flex-direction: column; }
+      header { padding: 18px 0; }
+      .nav-links .nav-link { display: none; }
+      .nav-links .nav-link:last-child { display: block; }
+      .hero { padding-top: 42px; padding-bottom: 280px; }
+      h1 { font-size: clamp(38px, 12vw, 56px); }
+      section { padding: 76px 0; }
+      .hero-actions, .btn { width: 100%; }
+      .hero-note { justify-content: center; width: 100%; }
+      .floating-card { left: 14px; right: 14px; width: auto; }
+      .portrait-card { min-height: 330px; padding: 25px; border-radius: 28px; }
+      .works-grid { gap: 12px; }
+      .works-grid { grid-template-columns: 1fr; }
+      .work-card { width: min(100%, 420px); margin-inline: auto; border-radius: 22px; }
+      .work-card figcaption { opacity: 1; transform: none; }
+      .reviews-head { align-items: flex-start; flex-direction: column; }
+      .process-grid { grid-template-columns: 1fr; }
+      .step { min-height: auto; }
+      .included { padding: 25px; }
+      .myths-grid { grid-template-columns: 1fr; }
+      .check-panel { padding: 23px; }
+      .score-box { padding: 24px; }
+      body { padding-bottom: 82px; }
+      .contact-dock { left: 10px; right: 10px; top: auto; bottom: 10px; display: flex; gap: 8px; transform: none; }
+      .contact-pill { flex: 1; min-width: 0; padding: 9px; border-radius: 15px; }
+      .contact-icon { width: 38px; height: 38px; border-radius: 11px; }
+      .contact-copy small { font-size: 9px; }
+      .contact-copy strong { font-size: 11px; white-space: nowrap; }
+      .contact-pill:hover { transform: translateY(-3px); }
+      .card-body, .review-card { padding: 25px; }
+      .cta-box { padding: 55px 25px; border-radius: 30px; }
+      .cta-box::after { right: -30px; font-size: 150px; }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="container" aria-label="Основная навигация">
+      <a class="logo" href="#top"><span class="logo-mark">АК</span><span>Анжелина Кот</span></a>
+      <div class="nav-links"><a class="nav-link" href="#about">Обо мне</a><a class="nav-link" href="#portfolio">Работы</a><a class="nav-link" href="#process">Как работаю</a><a class="nav-link" href="#checklist">Проверка</a><a class="nav-link" href="#pricing">Стоимость</a></div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-copy">
+        <p class="eyebrow">Визуальный редактор маркетплейсов</p>
+        <h1>Карточка под ключ: <span class="gradient-text">визуал, структура</span> и логика.</h1>
+        <p class="hero-subtitle">Работаю с визуалом, структурой и логикой карточек для Wildberries и Ozon — привожу их в понятное и конкурентное состояние.</p>
+        <div class="hero-actions">
+          <a class="btn" href="#contact">Обсудить проект</a>
+          <div class="hero-note"><span></span> Беру новые проекты</div>
+        </div>
+        <div class="usp-row" aria-label="Ключевые преимущества"><span class="usp-chip">WB и Ozon</span><span class="usp-chip">Карточка под ключ</span><span class="usp-chip">От структуры до готовых слайдов</span></div>
+      </div>
+      <div class="floating-card" aria-hidden="true">
+        <div class="mock-label"><span>Карточка товара</span><span>01 / 06</span></div>
+        <div class="mock-title">Не просто красиво — понятно</div>
+        <div>Обложка · смысл · визуальная иерархия</div>
+        <div class="mock-bar"><span></span></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <div class="portrait-card">
+          <img src="assets/angelina-kot.png" alt="Анжелина Кот — визуальный редактор маркетплейсов">
+          <div class="portrait-caption"><strong>Анжелина Кот</strong><span>визуал · структура · логика карточки</span></div>
+        </div>
+        <div class="about-text">
+          <p class="eyebrow">Обо мне</p>
+          <h2>Работаю с карточкой <span class="gradient-text">целиком</span> — от обложки до логики слайдов.</h2>
+          <p>Если карточка вроде бы оформлена нормально, но в выдаче её не выбирают, причина часто не в самом товаре, а в обложке, смыслах и визуальной иерархии.</p>
+          <p>Я привожу карточку в понятное и конкурентное состояние, чтобы покупателю было ясно, что это за товар и почему стоит выбрать именно его.</p>
+          <div class="signature">Моя зона ответственности — визуал и структура карточки.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="portfolio" id="portfolio">
+      <div class="container">
+        <div class="portfolio-head">
+          <div class="section-head">
+            <p class="eyebrow">Избранные проекты</p>
+            <h2>Карточки, которые хочется <span class="gradient-text">рассматривать</span></h2>
+          </div>
+          <p class="portfolio-note">Обложки для разных ниш: декор, посуда, подарки и товары для дома.</p>
+        </div>
+        <div class="works-grid">
+          <figure class="work-card"><img src="assets/cover-glasses.png" alt="Обложка карточки набора бокалов" loading="lazy"><figcaption><span>Набор бокалов</span><span>премиальная подача</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-aroma-candles.png" alt="Обложка карточки набора аромасвечей" loading="lazy"><figcaption><span>Аромасвечи</span><span>подарочный набор</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-carved-candle.png" alt="Обложка карточки резной свечи" loading="lazy"><figcaption><span>Резная свеча</span><span>ручная работа</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-perfume-bottle.png" alt="Обложка карточки парфюмерного флакона" loading="lazy"><figcaption><span>Флакон для духов</span><span>подарки</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-bedding.png" alt="Обложка карточки постельного белья" loading="lazy"><figcaption><span>Постельное бельё</span><span>товары для дома</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-glass-mug.png" alt="Обложка карточки стеклянной кружки" loading="lazy"><figcaption><span>Стеклянная кружка</span><span>посуда</span></figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="advantages">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Почему со мной</p>
+          <h2>Что меняется после <span class="gradient-text">переработки карточки</span></h2>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-visual"><img src="assets/cover-carved-candle.png" alt="Яркая карточка резной свечи" loading="lazy"><span class="visual-badge">2 секунды на внимание</span></div>
+            <div class="card-body"><h3>Смысл считывается сразу</h3><p>Обложка быстро объясняет, что перед покупателем, и помогает товару не потеряться среди конкурентов.</p></div>
+          </article>
+          <article class="card">
+            <div class="card-visual"><img src="assets/cover-glass-mug.png" alt="Карточка товара с наглядной выгодой" loading="lazy"><span class="visual-badge">+27% CTR</span><span class="mini-chart" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+            <div class="card-body"><h3>Логика вместо перегруза</h3><p>Выстраиваю информацию по приоритету: главное видно сразу, детали раскрываются последовательно.</p></div>
+          </article>
+          <article class="card">
+            <div class="card-visual"><img src="assets/cover-glasses.png" alt="Премиальный единый стиль карточек бренда" loading="lazy"><span class="visual-badge">единый визуальный код</span></div>
+            <div class="card-body"><h3>Единая система бренда</h3><p>Связываю карточки общим визуальным языком, чтобы ассортимент выглядел цельно и узнаваемо.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="process" id="process">
+      <div class="container">
+        <div class="process-intro">
+          <div class="section-head">
+            <p class="eyebrow">Как проходит работа</p>
+            <h2>От ссылки на товар — до карточки, <span class="gradient-text">готовой к размещению</span></h2>
+          </div>
+          <div class="process-offer">Карточка — это не просто картинка. Это система, которая помогает покупателю понять, что за товар перед ним и почему стоит выбрать именно его.</div>
+        </div>
+        <div class="process-grid">
+          <article class="step"><h3>Вы присылаете товар</h3><p>Достаточно ссылки, фотографий или короткого описания — разберусь в продукте и задам только необходимые вопросы.</p></article>
+          <article class="step"><h3>Анализирую выдачу</h3><p>Изучаю конкурентов, визуальные приёмы ниши и причины, по которым покупатель выбирает одну карточку среди десятков.</p></article>
+          <article class="step"><h3>Выстраиваю структуру</h3><p>Продумываю путь: внимание → доверие → выгоды → ответы на возражения → повод оформить заказ.</p></article>
+          <article class="step"><h3>Создаю первый экран</h3><p>Формулирую цепляющий оффер и собираю обложку, которая выделяет товар без визуального шума.</p></article>
+          <article class="step"><h3>Собираю инфографику</h3><p>Перевожу характеристики на язык пользы и оформляю слайды под требования Wildberries или Ozon.</p></article>
+          <article class="step"><h3>Передаю готовый результат</h3><p>Вы получаете карточку, готовую к размещению. При необходимости вношу согласованные правки.</p></article>
+        </div>
+        <div class="included">
+          <div><h3>Всё необходимое — уже внутри</h3><p class="trust-note">Работаю под ключ: вам не придётся дописывать тексты или переделывать структуру самостоятельно.</p></div>
+          <div class="included-list"><span>Обложка карточки</span><span>5–7 дополнительных слайдов</span><span>Продающие тексты</span><span>Инфографика</span><span>Логика подачи</span><span>Адаптация под площадку</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="diagnostic" id="checklist">
+      <div class="container">
+        <div class="diagnostic-head">
+          <p class="eyebrow">Что мешает карточке продавать</p>
+          <h2>Хорошего фото <span class="gradient-text">недостаточно</span></h2>
+          <p class="hero-subtitle">Проверьте, не теряет ли ваша карточка внимание покупателя из-за типичных ошибок.</p>
+        </div>
+        <div class="myths-grid">
+          <article class="myth"><span class="myth-label">× Ошибка 01</span><h3>Чем больше текста — тем лучше</h3><p>Покупатель не читает, а сканирует экран за секунды. Если главная выгода не видна сразу — карточку пролистывают.</p></article>
+          <article class="myth"><span class="myth-label">× Ошибка 02</span><h3>Главное — сделать красиво</h3><p>Красота помогает привлечь внимание, но продаёт структура: понятный оффер, аргументы и ответы на вопросы покупателя.</p></article>
+          <article class="myth"><span class="myth-label">× Ошибка 03</span><h3>Можно скопировать конкурента</h3><p>Вместе с чужим дизайном легко скопировать чужие ошибки. Карточка должна раскрывать именно ваш товар и вашу аудиторию.</p></article>
+          <article class="myth"><span class="myth-label">× Ошибка 04</span><h3>«Лучшее качество» уже продаёт</h3><p>Общие фразы не вызывают доверия. Работает конкретика: материал, размер, сценарий использования и измеримая польза.</p></article>
+        </div>
+        <div class="check-panel">
+          <div>
+            <h3>Чек‑лист вашей карточки</h3>
+            <p class="check-lead">Отметьте пункты, которые уже есть. Результат изменится автоматически.</p>
+            <div class="check-list">
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Первый экран понятно объясняет, что это за товар</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Главная выгода считывается за 2–3 секунды</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Текст короткий, конкретный и легко читается с телефона</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Каждый слайд отвечает на один вопрос покупателя</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Закрыты основные сомнения: размер, материал, комплектация</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Все слайды выглядят как единая система бренда</span></label>
+            </div>
+          </div>
+          <div class="score-box" aria-live="polite">
+            <span class="score-label">Готовность карточки</span>
+            <div class="score"><span id="score-value">0</span>/6</div>
+            <p class="score-message" id="score-message">Начните отмечать пункты — и увидите, где карточка теряет покупателя.</p>
+            <a class="btn" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20Хочу%20получить%20разбор%20карточки." target="_blank" rel="noopener noreferrer">Получить разбор</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="container">
+        <div class="reviews-head">
+          <div class="section-head"><p class="eyebrow">Отзывы клиентов</p><h2>Когда визуал начинает <span class="gradient-text">работать</span></h2></div>
+          <div class="reviews-metric">206+ карточек</div>
+        </div>
+        <div class="reviews-grid">
+          <blockquote class="review-card">
+            <div class="review-result">Понятнее и дороже</div><div class="quote-mark">“</div>
+            <p>Анжелина не просто сделала красивые слайды — она увидела сильные стороны продукта, которые мы сами не замечали. Карточка стала понятнее, дороже на вид и наконец начала выделяться в выдаче.</p>
+            <cite><span class="avatar">МС</span><span>Марина С.<br>товары для дома</span></cite>
+          </blockquote>
+          <blockquote class="review-card">
+            <div class="review-result">×12,3 к заказам</div><div class="quote-mark">“</div>
+            <p>После новой подачи пижамы покупатель сразу видит главное: хлопок, размеры и пользу. Раньше карточка выглядела мило, теперь она ещё и объясняет, почему стоит купить.</p>
+            <cite><span class="avatar">ЕК</span><span>Елена К.<br>детская одежда</span></cite>
+          </blockquote>
+          <blockquote class="review-card">
+            <div class="review-result">2039 → 254 место</div><div class="quote-mark">“</div>
+            <p>Переработали визуал магазина системно, а не точечно. У карточек появился единый стиль и понятная логика — ассортимент наконец стал выглядеть как настоящий бренд.</p>
+            <cite><span class="avatar">ОП</span><span>Ольга П.<br>магазин на Ozon</span></cite>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="pricing" id="pricing" aria-labelledby="pricing-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Стоимость услуг</p>
+          <h2 id="pricing-title">Выберите подходящий <span class="gradient-text">формат</span></h2>
+          <p class="pricing-intro">Понятные варианты для разных задач — от разбора готовой карточки до полноценного оформления товара.</p>
+        </div>
+        <div class="pricing-grid">
+          <article class="price-card">
+            <p class="price-kicker">Точка старта</p>
+            <h3>Разбор карточки</h3>
+            <div class="price">900 ₽</div>
+            <ul class="price-list">
+              <li>анализ обложки и структуры</li>
+              <li>оценка читаемости и визуала</li>
+              <li>рекомендации по улучшению</li>
+            </ul>
+            <a class="btn" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20Хочу%20заказать%20разбор%20карточки." target="_blank" rel="noopener noreferrer">Заказать разбор</a>
+          </article>
+          <article class="price-card">
+            <p class="price-kicker">Для небольшой задачи</p>
+            <h3>Старт</h3>
+            <div class="price">2 600 ₽ <small>за 3 слайда</small></div>
+            <ul class="price-list">
+              <li>анализ товара и конкурентов</li>
+              <li>обложка и 2 инфослайда</li>
+              <li>тексты для инфографики</li>
+              <li>2 круга согласованных правок</li>
+            </ul>
+            <a class="btn" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20Хочу%20обсудить%20оформление%20карточки." target="_blank" rel="noopener noreferrer">Обсудить задачу</a>
+          </article>
+          <article class="price-card featured">
+            <p class="price-kicker">Полное оформление</p>
+            <h3>Карточка под ключ</h3>
+            <div class="price">от 5 800 ₽ <small>за 7 слайдов</small></div>
+            <ul class="price-list">
+              <li>анализ товара и конкурентов</li>
+              <li>структура и логика подачи</li>
+              <li>обложка и 6 инфослайдов</li>
+              <li>тексты и инфографика</li>
+              <li>2 круга согласованных правок</li>
+            </ul>
+            <a class="btn" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20Хочу%20рассчитать%20стоимость%20карточки%20под%20ключ." target="_blank" rel="noopener noreferrer">Рассчитать проект</a>
+          </article>
+        </div>
+        <div class="extras" aria-label="Дополнительные услуги">
+          <div class="extra-pill"><span>Отдельная обложка</span><strong>1 200 ₽</strong></div>
+          <div class="extra-pill"><span>Дополнительный слайд</span><strong>800 ₽</strong></div>
+          <div class="extra-pill"><span>Адаптация под другую площадку</span><strong>от 300 ₽</strong></div>
+          <div class="extra-pill"><span>Срочная работа</span><strong>+30%</strong></div>
+        </div>
+        <div class="calculator" id="calculator">
+          <div class="calculator-head">
+            <p class="eyebrow">Калькулятор</p>
+            <h3>Рассчитайте примерную стоимость</h3>
+            <p>Выберите нужный формат и дополнительные услуги.</p>
+          </div>
+          <div class="calc-fields">
+            <label class="calc-field">
+              <span>Основная услуга</span>
+              <select id="calc-package">
+                <option value="1200" data-slides="1">Отдельная обложка — 1 200 ₽</option>
+                <option value="2600" data-slides="3" selected>Пакет «Старт», 3 слайда — 2 600 ₽</option>
+                <option value="5800" data-slides="7">Карточка под ключ, 7 слайдов — 5 800 ₽</option>
+              </select>
+            </label>
+            <label class="calc-field">
+              <span>Дополнительные слайды — 800 ₽ за каждый</span>
+              <input id="calc-extra" type="number" min="0" max="10" step="1" value="0" inputmode="numeric">
+            </label>
+            <div class="calc-options">
+              <label class="calc-check">
+                <input id="calc-adaptation" type="checkbox">
+                <span><strong>Адаптация</strong><small>Под другую площадку: +300 ₽ за слайд</small></span>
+              </label>
+              <label class="calc-check">
+                <input id="calc-urgent" type="checkbox">
+                <span><strong>Срочная работа</strong><small>К рассчитанной стоимости: +30%</small></span>
+              </label>
+            </div>
+          </div>
+          <div class="calc-result" aria-live="polite">
+            <span>Примерная стоимость</span>
+            <div class="calc-total" id="calc-total">2 600 ₽</div>
+            <p class="calc-summary" id="calc-summary">Пакет «Старт»: 3 слайда.</p>
+            <a class="btn" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20Я%20рассчитал(а)%20стоимость%20на%20сайте%20и%20хочу%20уточнить%20детали." target="_blank" rel="noopener noreferrer">Уточнить стоимость</a>
+            <p class="calc-disclaimer">Расчёт предварительный. Итоговую цену согласуем до начала работы.</p>
+          </div>
+        </div>
+        <p class="pricing-note">Точная стоимость зависит от сложности товара, качества исходных материалов и объёма обработки. Я называю итоговую цену до начала работы — после знакомства с задачей.</p>
+      </div>
+    </section>
+
+    <section class="faq" id="faq" aria-labelledby="faq-title">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Вопросы и ответы</p>
+          <h2 id="faq-title">Частые <span class="gradient-text">вопросы</span></h2>
+          <p class="faq-intro">Коротко о том, что важно знать перед заказом карточки.</p>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item" open>
+            <summary>Сколько стоит оформление карточки?</summary>
+            <p>Стоимость зависит от количества слайдов, сложности визуала и исходных материалов. Пришлите ссылку на товар и описание задачи — обсудим объём и цену.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Сколько времени занимает работа?</summary>
+            <p>Срок зависит от объёма проекта и готовности материалов. Конкретную дату согласуем перед стартом, с учётом времени на обратную связь и правки.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Что нужно прислать для начала?</summary>
+            <p>Ссылку на товар или его описание, фотографии и основные характеристики. Если есть пожелания по стилю или примеры, приложите их тоже.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Что делать, если нет готового ТЗ?</summary>
+            <p>Начать можно с короткого описания товара и задачи. Я задам необходимые вопросы и помогу выстроить структуру и логику слайдов.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Что входит в карточку под ключ?</summary>
+            <p>Обложка, 5–7 дополнительных слайдов, тексты для них, инфографика и адаптация под площадку. Точный состав работы уточним под ваш товар.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Можно ли улучшить уже готовую карточку?</summary>
+            <p>Да. Пришлите ссылку — посмотрю на обложку, читаемость и последовательность слайдов. Обсудим, что стоит доработать и нужна ли полная переработка.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Можно ли внести правки?</summary>
+            <p>Да, согласованные правки предусмотрены. Их объём и порядок обсудим до начала работы, чтобы ожидания по результату совпадали.</p>
+          </details>
+          <details class="faq-item">
+            <summary>Гарантируете ли вы рост продаж?</summary>
+            <p>Конкретный рост продаж не обещаю: на него влияют также цена, отзывы, реклама и другие факторы. Моя задача — сделать визуал и структуру карточки понятными и убедительными.</p>
+          </details>
+        </div>
+        <div class="faq-contact">
+          <div>
+            <h3>Не нашли ответ на свой вопрос?</h3>
+            <p>Напишите мне в мессенджер — уточню задачу и подскажу подходящий вариант.</p>
+          </div>
+          <a class="btn" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20У%20меня%20есть%20вопрос%20по%20оформлению%20карточки." target="_blank" rel="noopener noreferrer">Задать вопрос</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="contact">
+      <div class="container">
+        <div class="cta-box">
+          <h2>Карточка сейчас <span style="color:#ffd4bc">не работает?</span> Посмотрим, почему.</h2>
+          <p>Пришлите ссылку на товар — я посмотрю, есть ли смысл переработать визуал или причина, скорее всего, в другом.</p>
+          <a class="btn" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20Пишу%20с%20вашего%20сайта.%20Хочу%20обсудить%20свою%20карточку." target="_blank" rel="noopener noreferrer">Написать в Telegram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <aside class="contact-dock" aria-label="Быстрые контакты">
+    <a class="contact-pill" href="tel:+79011024046" aria-label="Позвонить или найти в MAX по номеру плюс семь девятьсот один сто два сорок сорок шесть">
+      <span class="contact-icon">MAX</span>
+      <span class="contact-copy"><small>Телефон · MAX</small><strong>+7 901 102-40-46</strong></span>
+    </a>
+    <a class="contact-pill telegram" href="https://t.me/anjelina_k?text=Здравствуйте%2C%20Анжелина!%20Пишу%20с%20вашего%20сайта." target="_blank" rel="noopener noreferrer" aria-label="Открыть диалог с Анжелиной в Telegram">
+      <span class="contact-icon">TG</span>
+      <span class="contact-copy"><small>Личный Telegram</small><strong>@anjelina_k</strong></span>
+    </a>
+  </aside>
+
+  <footer>
+    <div class="container footer-inner">
+      <span>© 2026 Анжелина Кот · <a href="https://t.me/anjelina_cards" target="_blank" rel="noopener noreferrer">Telegram @anjelina_cards</a></span>
+      <span>*Не обещаю конкретные позиции в выдаче: они зависят от множества факторов.</span>
+    </div>
+  </footer>
+  <script>
+    const checks = document.querySelectorAll('.check-item input');
+    const scoreValue = document.getElementById('score-value');
+    const scoreMessage = document.getElementById('score-message');
+    const messages = [
+      'Начните отмечать пункты — и увидите, где карточка теряет покупателя.',
+      'Сейчас карточка может быть непонятной с первого взгляда.',
+      'Основа есть, но покупателю пока не хватает аргументов.',
+      'Неплохой старт. Стоит усилить структуру и конкретику.',
+      'Карточка уже убедительная — осталось убрать слабые места.',
+      'Очень хороший результат. Проверьте последний пункт.',
+      'Отлично: карточка выглядит продуманной и готовой к продаже.'
+    ];
+    checks.forEach((check) => check.addEventListener('change', () => {
+      const score = [...checks].filter((item) => item.checked).length;
+      scoreValue.textContent = score;
+      scoreMessage.textContent = messages[score];
+    }));
+
+    const calcPackage = document.getElementById('calc-package');
+    const calcExtra = document.getElementById('calc-extra');
+    const calcAdaptation = document.getElementById('calc-adaptation');
+    const calcUrgent = document.getElementById('calc-urgent');
+    const calcTotal = document.getElementById('calc-total');
+    const calcSummary = document.getElementById('calc-summary');
+    const formatPrice = (value) => new Intl.NumberFormat('ru-RU').format(value) + ' ₽';
+    const updateCalculator = () => {
+      const selected = calcPackage.options[calcPackage.selectedIndex];
+      const basePrice = Number(selected.value);
+      const baseSlides = Number(selected.dataset.slides);
+      const extraSlides = Math.min(10, Math.max(0, Number.parseInt(calcExtra.value, 10) || 0));
+      calcExtra.value = extraSlides;
+      const allSlides = baseSlides + extraSlides;
+      const adaptationPrice = calcAdaptation.checked ? allSlides * 300 : 0;
+      const subtotal = basePrice + extraSlides * 800 + adaptationPrice;
+      const total = calcUrgent.checked ? Math.round(subtotal * 1.3 / 10) * 10 : subtotal;
+      const details = [`${allSlides} ${allSlides === 1 ? 'слайд' : allSlides < 5 ? 'слайда' : 'слайдов'}`];
+      if (calcAdaptation.checked) details.push('адаптация под другую площадку');
+      if (calcUrgent.checked) details.push('срочная работа');
+      calcTotal.textContent = formatPrice(total);
+      calcSummary.textContent = details.join(' · ') + '.';
+    };
+    [calcPackage, calcExtra, calcAdaptation, calcUrgent].forEach((control) => {
+      control.addEventListener('input', updateCalculator);
+      control.addEventListener('change', updateCalculator);
+    });
+    updateCalculator();
+  </script>
+</body>
+</html>
