@@ -328,6 +328,8 @@
     .contact-pill:hover { transform: translateX(-7px) translateY(-2px); border-color: rgba(169,140,255,.52); box-shadow: 0 20px 50px rgba(0,0,0,.44); }
     .contact-icon { flex: 0 0 auto; display: grid; width: 42px; height: 42px; place-items: center; border-radius: 13px; color: #fff; font-family: "Unbounded", sans-serif; font-size: 13px; background: linear-gradient(135deg, #6f8cff, #a98cff); box-shadow: inset 0 1px 0 rgba(255,255,255,.22); }
     .contact-pill.telegram .contact-icon { background: linear-gradient(135deg, #2aabee, #6d7cff); }
+    .contact-web-link { max-width: 242px; color: #d8cdee; font-size: 11px; font-weight: 700; text-align: center; text-underline-offset: 3px; }
+    .contact-web-link:hover { color: #fff; }
     .contact-copy { display: grid; line-height: 1.25; }
     .contact-copy small { color: #b9aec7; font-size: 10px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
     .contact-copy strong { margin-top: 3px; font-size: 14px; }
@@ -379,9 +381,10 @@
       .myths-grid { grid-template-columns: 1fr; }
       .check-panel { padding: 23px; }
       .score-box { padding: 24px; }
-      body { padding-bottom: 82px; }
-      .contact-dock { left: 10px; right: 10px; top: auto; bottom: 10px; display: flex; gap: 8px; transform: none; }
+      body { padding-bottom: 125px; }
+      .contact-dock { left: 10px; right: 10px; top: auto; bottom: 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; transform: none; }
       .contact-pill { flex: 1; min-width: 0; padding: 9px; border-radius: 15px; }
+      .contact-web-link { grid-column: 1 / -1; max-width: none; padding: 2px 0; }
       .contact-icon { width: 38px; height: 38px; border-radius: 11px; }
       .contact-copy small { font-size: 9px; }
       .contact-copy strong { font-size: 11px; white-space: nowrap; }
@@ -544,7 +547,6 @@
       <div class="container">
         <div class="reviews-head">
           <div class="section-head"><p class="eyebrow">Отзывы клиентов</p><h2>Когда визуал начинает <span class="gradient-text">работать</span></h2></div>
-          <div class="reviews-metric">206+ карточек</div>
         </div>
         <div class="reviews-grid">
           <blockquote class="review-card">
@@ -553,12 +555,12 @@
             <cite><span class="avatar">МС</span><span>Марина С.<br>товары для дома</span></cite>
           </blockquote>
           <blockquote class="review-card">
-            <div class="review-result">×12,3 к заказам</div><div class="quote-mark">“</div>
+            <div class="review-result">Акцент на главном</div><div class="quote-mark">“</div>
             <p>После новой подачи пижамы покупатель сразу видит главное: хлопок, размеры и пользу. Раньше карточка выглядела мило, теперь она ещё и объясняет, почему стоит купить.</p>
             <cite><span class="avatar">ЕК</span><span>Елена К.<br>детская одежда</span></cite>
           </blockquote>
           <blockquote class="review-card">
-            <div class="review-result">2039 → 254 место</div><div class="quote-mark">“</div>
+            <div class="review-result">Единый стиль</div><div class="quote-mark">“</div>
             <p>Переработали визуал магазина системно, а не точечно. У карточек появился единый стиль и понятная логика — ассортимент наконец стал выглядеть как настоящий бренд.</p>
             <cite><span class="avatar">ОП</span><span>Ольга П.<br>магазин на Ozon</span></cite>
           </blockquote>
@@ -722,19 +724,20 @@
   </main>
 
   <aside class="contact-dock" aria-label="Быстрые контакты">
-    <a class="contact-pill" href="tel:+79011024046" aria-label="Позвонить или найти в MAX по номеру плюс семь девятьсот один сто два сорок сорок шесть">
+    <a class="contact-pill" href="https://max.ru/u/f9LHodD0cOLXHwemPewRPmxYm6XgHW_W_r-2EoOw3UGroItEOHN7tXQWhSE" target="_blank" rel="noopener noreferrer" aria-label="Открыть профиль Анжелины и чат в MAX">
       <span class="contact-icon">MAX</span>
-      <span class="contact-copy"><small>Телефон · MAX</small><strong>+7 901 102-40-46</strong></span>
+      <span class="contact-copy"><small>Написать в MAX</small><strong>Анжелине Кот</strong></span>
     </a>
     <a class="contact-pill telegram" href="tg://resolve?domain=anjelina_k" aria-label="Открыть диалог с Анжелиной в приложении Telegram">
       <span class="contact-icon">TG</span>
       <span class="contact-copy"><small>Личный Telegram</small><strong>@anjelina_k</strong></span>
     </a>
+    <a class="contact-web-link" href="https://t.me/anjelina_k" target="_blank" rel="noopener noreferrer">Нет приложения Telegram? Открыть чат в браузере</a>
   </aside>
 
   <footer>
     <div class="container footer-inner">
-      <span>© 2026 Анжелина Кот · <a href="https://t.me/anjelina_cards" target="_blank" rel="noopener noreferrer">Telegram @anjelina_cards</a></span>
+      <span>© 2026 Анжелина Кот · <a href="https://t.me/anjelina_cards" target="_blank" rel="noopener noreferrer">Telegram @anjelina_cards</a> · <a href="tel:+79011024046">+7 901 102-40-46</a></span>
       <span>*Не обещаю конкретные позиции в выдаче: они зависят от множества факторов.</span>
     </div>
   </footer>
