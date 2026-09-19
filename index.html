@@ -319,7 +319,9 @@
     footer { padding: 35px 0 44px; }
     .footer-inner { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 13px; }
 
-    .contact-dock { position: fixed; z-index: 50; right: 18px; top: 50%; display: grid; gap: 12px; transform: translateY(-50%); }
+    .contact-dock { position: fixed; z-index: 50; right: 18px; top: 50%; transform: translateY(-50%); }
+    .contact-panel { display: grid; gap: 12px; }
+    .contact-toggle { display: none; align-items: center; gap: 9px; min-height: 52px; padding: 0 18px; border: 1px solid rgba(255,255,255,.22); border-radius: 18px; color: #fff; background: linear-gradient(135deg, var(--violet), var(--violet-dark)); box-shadow: 0 16px 40px rgba(0,0,0,.4); font: inherit; font-weight: 800; cursor: pointer; }
     .contact-pill { display: flex; align-items: center; gap: 12px; min-width: 242px; padding: 13px 18px 13px 12px; border: 1px solid rgba(255,255,255,.22); border-radius: 19px; color: #fff; background: rgba(31,24,42,.94); box-shadow: 0 16px 44px rgba(0,0,0,.42); backdrop-filter: blur(14px); text-decoration: none; transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease; animation: contactFloat 4.5s ease-in-out infinite; }
     .contact-pill:nth-child(2) { animation-delay: -2.1s; }
     .contact-pill:hover { transform: translateX(-7px) translateY(-2px); border-color: rgba(169,140,255,.52); box-shadow: 0 20px 50px rgba(0,0,0,.44); }
@@ -377,10 +379,13 @@
       .myths-grid { grid-template-columns: 1fr; }
       .check-panel { padding: 23px; }
       .score-box { padding: 24px; }
-      body { padding-bottom: 125px; }
-      .contact-dock { left: 10px; right: 10px; top: auto; bottom: 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; transform: none; }
-      .contact-pill { flex: 1; min-width: 0; padding: 9px; border-radius: 15px; }
-      .contact-web-link { grid-column: 1 / -1; max-width: none; padding: 2px 0; }
+      body { padding-bottom: 78px; }
+      .contact-dock { left: auto; right: 14px; top: auto; bottom: 14px; transform: none; }
+      .contact-toggle { display: flex; }
+      .contact-panel { position: absolute; right: 0; bottom: 62px; display: none; width: min(300px, calc(100vw - 28px)); padding: 12px; border: 1px solid var(--line); border-radius: 22px; background: rgba(25,19,33,.98); box-shadow: 0 22px 60px rgba(0,0,0,.5); }
+      .contact-dock.open .contact-panel { display: grid; }
+      .contact-pill { min-width: 0; padding: 10px; border-radius: 15px; }
+      .contact-web-link { max-width: none; padding: 3px 4px; }
       .contact-icon { width: 38px; height: 38px; border-radius: 11px; }
       .contact-copy small { font-size: 9px; }
       .contact-copy strong { font-size: 11px; white-space: nowrap; }
@@ -404,13 +409,13 @@
     <section class="hero">
       <div class="container hero-copy">
         <p class="eyebrow">Визуальный редактор маркетплейсов</p>
-        <h1>Карточка под ключ: <span class="gradient-text">визуал, структура</span> и логика.</h1>
-        <p class="hero-subtitle">Работаю с визуалом, структурой и логикой карточек для Wildberries и Ozon — привожу их в понятное и конкурентное состояние.</p>
+        <h1>Карточки товаров <span class="gradient-text">под ключ</span> для Wildberries и Ozon.</h1>
+        <p class="hero-subtitle">Разберусь в товаре, разработаю структуру, тексты, обложку и инфослайды. Можно обратиться без готового ТЗ.</p>
         <div class="hero-actions">
-          <a class="btn" href="#contact">Обсудить проект</a>
+          <a class="btn" href="#checklist">Получить оценку карточки</a>
           <div class="hero-note"><span></span> Беру новые проекты</div>
         </div>
-        <div class="usp-row" aria-label="Ключевые преимущества"><span class="usp-chip">WB и Ozon</span><span class="usp-chip">Карточка под ключ</span><span class="usp-chip">От структуры до готовых слайдов</span></div>
+        <div class="usp-row" aria-label="Ключевые преимущества"><span class="usp-chip">WB и Ozon</span><span class="usp-chip">Можно без ТЗ</span><span class="usp-chip">От структуры до готовых файлов</span></div>
       </div>
       <div class="floating-card" aria-hidden="true">
         <div class="mock-label"><span>Карточка товара</span><span>01 / 06</span></div>
@@ -423,7 +428,7 @@
     <section id="about">
       <div class="container about-grid">
         <div class="portrait-card">
-          <img src="assets/angelina-kot.png" alt="Анжелина Кот — визуальный редактор маркетплейсов">
+          <img src="assets/angelina-kot.webp" alt="Анжелина Кот — визуальный редактор маркетплейсов">
           <div class="portrait-caption"><strong>Анжелина Кот</strong><span>визуал · структура · логика карточки</span></div>
         </div>
         <div class="about-text">
@@ -446,12 +451,12 @@
           <p class="portfolio-note">Обложки для разных ниш: декор, посуда, подарки и товары для дома.</p>
         </div>
         <div class="works-grid">
-          <figure class="work-card"><img src="assets/cover-glasses.png" alt="Обложка карточки набора бокалов" loading="lazy"><figcaption><span>Набор бокалов</span><span>премиальная подача</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-aroma-candles.png" alt="Обложка карточки набора аромасвечей" loading="lazy"><figcaption><span>Аромасвечи</span><span>подарочный набор</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-carved-candle.png" alt="Обложка карточки резной свечи" loading="lazy"><figcaption><span>Резная свеча</span><span>ручная работа</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-perfume-bottle.png" alt="Обложка карточки парфюмерного флакона" loading="lazy"><figcaption><span>Флакон для духов</span><span>подарки</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-bedding.png" alt="Обложка карточки постельного белья" loading="lazy"><figcaption><span>Постельное бельё</span><span>товары для дома</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-glass-mug.png" alt="Обложка карточки стеклянной кружки" loading="lazy"><figcaption><span>Стеклянная кружка</span><span>посуда</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-glasses.webp" alt="Обложка карточки набора бокалов" loading="lazy"><figcaption><span>Набор бокалов</span><span>премиальная подача</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-aroma-candles.webp" alt="Обложка карточки набора аромасвечей" loading="lazy"><figcaption><span>Аромасвечи</span><span>подарочный набор</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-carved-candle.webp" alt="Обложка карточки резной свечи" loading="lazy"><figcaption><span>Резная свеча</span><span>ручная работа</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-perfume-bottle.webp" alt="Обложка карточки парфюмерного флакона" loading="lazy"><figcaption><span>Флакон для духов</span><span>подарки</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-bedding.webp" alt="Обложка карточки постельного белья" loading="lazy"><figcaption><span>Постельное бельё</span><span>товары для дома</span></figcaption></figure>
+          <figure class="work-card"><img src="assets/cover-glass-mug.webp" alt="Обложка карточки стеклянной кружки" loading="lazy"><figcaption><span>Стеклянная кружка</span><span>посуда</span></figcaption></figure>
         </div>
       </div>
     </section>
@@ -464,15 +469,15 @@
         </div>
         <div class="cards">
           <article class="card">
-            <div class="card-visual"><img src="assets/cover-carved-candle.png" alt="Яркая карточка резной свечи" loading="lazy"><span class="visual-badge">2 секунды на внимание</span></div>
+            <div class="card-visual"><img src="assets/cover-carved-candle.webp" alt="Яркая карточка резной свечи" loading="lazy"><span class="visual-badge">смысл с первого взгляда</span></div>
             <div class="card-body"><h3>Смысл считывается сразу</h3><p>Обложка быстро объясняет, что перед покупателем, и помогает товару не потеряться среди конкурентов.</p></div>
           </article>
           <article class="card">
-            <div class="card-visual"><img src="assets/cover-glass-mug.png" alt="Карточка товара с наглядной выгодой" loading="lazy"><span class="visual-badge">+27% CTR</span><span class="mini-chart" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+            <div class="card-visual"><img src="assets/cover-glass-mug.webp" alt="Карточка товара с наглядной выгодой" loading="lazy"><span class="visual-badge">выгода на первом плане</span><span class="mini-chart" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
             <div class="card-body"><h3>Логика вместо перегруза</h3><p>Выстраиваю информацию по приоритету: главное видно сразу, детали раскрываются последовательно.</p></div>
           </article>
           <article class="card">
-            <div class="card-visual"><img src="assets/cover-glasses.png" alt="Премиальный единый стиль карточек бренда" loading="lazy"><span class="visual-badge">единый визуальный код</span></div>
+            <div class="card-visual"><img src="assets/cover-glasses.webp" alt="Премиальный единый стиль карточек бренда" loading="lazy"><span class="visual-badge">единый визуальный код</span></div>
             <div class="card-body"><h3>Единая система бренда</h3><p>Связываю карточки общим визуальным языком, чтобы ассортимент выглядел цельно и узнаваемо.</p></div>
           </article>
         </div>
@@ -498,7 +503,7 @@
         </div>
         <div class="included">
           <div><h3>Всё необходимое — уже внутри</h3><p class="trust-note">Работаю под ключ: вам не придётся дописывать тексты или переделывать структуру самостоятельно.</p></div>
-          <div class="included-list"><span>Обложка карточки</span><span>5–7 дополнительных слайдов</span><span>Продающие тексты</span><span>Инфографика</span><span>Логика подачи</span><span>Адаптация под площадку</span></div>
+          <div class="included-list"><span>Обложка карточки</span><span>2–6 инфослайдов</span><span>Тексты для слайдов</span><span>Инфографика</span><span>Логика подачи</span><span>Файлы под требования площадки</span></div>
         </div>
       </div>
     </section>
@@ -578,7 +583,7 @@
             <ul class="price-list">
               <li>анализ обложки и структуры</li>
               <li>оценка читаемости и визуала</li>
-              <li>рекомендации по улучшению</li>
+              <li>письменные рекомендации по приоритетам</li>
             </ul>
             <a class="btn" href="tg://resolve?domain=anjelina_k">Заказать разбор</a>
           </article>
@@ -653,7 +658,7 @@
             <p class="calc-disclaimer">Расчёт предварительный. Итоговую цену согласуем до начала работы.</p>
           </div>
         </div>
-        <p class="pricing-note">Точная стоимость зависит от сложности товара, качества исходных материалов и объёма обработки. Я называю итоговую цену до начала работы — после знакомства с задачей.</p>
+        <p class="pricing-note">Точная стоимость зависит от сложности товара, качества исходных материалов и объёма обработки. Итоговую цену, срок, условия оплаты и состав правок согласуем до начала работы.</p>
       </div>
     </section>
 
@@ -683,7 +688,7 @@
           </details>
           <details class="faq-item">
             <summary>Что входит в карточку под ключ?</summary>
-            <p>Обложка, 5–7 дополнительных слайдов, тексты для них, инфографика и адаптация под площадку. Точный состав работы уточним под ваш товар.</p>
+            <p>В базовый пакет входят обложка, 6 инфослайдов, тексты для них, инфографика и готовые файлы для одной выбранной площадки. Дополнительные слайды и адаптация для второй площадки рассчитываются отдельно.</p>
           </details>
           <details class="faq-item">
             <summary>Можно ли улучшить уже готовую карточку?</summary>
@@ -719,16 +724,19 @@
     </section>
   </main>
 
-  <aside class="contact-dock" aria-label="Быстрые контакты">
-    <a class="contact-pill" href="https://max.ru/u/f9LHodD0cOLXHwemPewRPmxYm6XgHW_W_r-2EoOw3UGroItEOHN7tXQWhSE" target="_blank" rel="noopener noreferrer" aria-label="Открыть профиль Анжелины и чат в MAX">
-      <span class="contact-icon">MAX</span>
-      <span class="contact-copy"><small>Написать в MAX</small><strong>Анжелине Кот</strong></span>
-    </a>
-    <a class="contact-pill telegram" href="tg://resolve?domain=anjelina_k" aria-label="Открыть диалог с Анжелиной в приложении Telegram">
-      <span class="contact-icon">TG</span>
-      <span class="contact-copy"><small>Личный Telegram</small><strong>@anjelina_k</strong></span>
-    </a>
-    <a class="contact-web-link" href="https://t.me/anjelina_k" target="_blank" rel="noopener noreferrer">Нет приложения Telegram? Открыть чат в браузере</a>
+  <aside class="contact-dock" id="contact-menu" aria-label="Быстрые контакты">
+    <button class="contact-toggle" type="button" aria-expanded="false" aria-controls="contact-panel">Написать <span aria-hidden="true">✦</span></button>
+    <div class="contact-panel" id="contact-panel">
+      <a class="contact-pill" href="https://max.ru/u/f9LHodD0cOLXHwemPewRPmxYm6XgHW_W_r-2EoOw3UGroItEOHN7tXQWhSE" target="_blank" rel="noopener noreferrer" aria-label="Открыть профиль Анжелины и чат в MAX">
+        <span class="contact-icon">MAX</span>
+        <span class="contact-copy"><small>Написать в MAX</small><strong>Анжелине Кот</strong></span>
+      </a>
+      <a class="contact-pill telegram" href="tg://resolve?domain=anjelina_k" aria-label="Открыть диалог с Анжелиной в приложении Telegram">
+        <span class="contact-icon">TG</span>
+        <span class="contact-copy"><small>Личный Telegram</small><strong>@anjelina_k</strong></span>
+      </a>
+      <a class="contact-web-link" href="https://t.me/anjelina_k" target="_blank" rel="noopener noreferrer">Нет приложения Telegram? Открыть чат в браузере</a>
+    </div>
   </aside>
 
   <footer>
@@ -793,6 +801,19 @@
       control.addEventListener('change', updateCalculator);
     });
     updateCalculator();
+
+    const contactMenu = document.getElementById('contact-menu');
+    const contactToggle = contactMenu.querySelector('.contact-toggle');
+    contactToggle.addEventListener('click', () => {
+      const isOpen = contactMenu.classList.toggle('open');
+      contactToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+    document.addEventListener('click', (event) => {
+      if (!contactMenu.contains(event.target)) {
+        contactMenu.classList.remove('open');
+        contactToggle.setAttribute('aria-expanded', 'false');
+      }
+    });
   </script>
 </body>
 </html>
