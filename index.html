@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Анжелина Кот — визуальный редактор маркетплейсов. Работаю с визуалом, структурой и логикой карточек товаров для Wildberries и Ozon.">
-  <title>Анжелина Кот — визуальный редактор маркетплейсов</title>
+  <meta name="description" content="Карточки товаров для Wildberries и Ozon: обложка, структура, тексты и инфографика. Работа под ключ, можно без готового ТЗ.">
+  <title>Карточки товаров для Wildberries и Ozon — Анжелина</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700&display=swap" rel="stylesheet">
@@ -20,6 +20,12 @@
       --line: rgba(239, 208, 168, .16);
       --shadow: 0 24px 70px rgba(0, 0, 0, .32);
       --radius: 28px;
+      --space-xs: 8px;
+      --space-sm: 16px;
+      --space-md: 24px;
+      --space-lg: 40px;
+      --space-xl: 64px;
+      --space-2xl: 96px;
     }
 
     * { box-sizing: border-box; }
@@ -61,6 +67,7 @@
       -webkit-background-clip: text;
       background-clip: text;
     }
+    .soft-accent { color: #efd0a8; font-weight: 700; }
 
     .btn {
       display: inline-flex;
@@ -81,6 +88,11 @@
     .btn::after { content: "↗"; font-size: 20px; }
     .btn:hover { transform: translateY(-3px); box-shadow: 0 19px 40px rgba(128, 78, 38, .38); }
     .btn:focus-visible { outline: 3px solid rgba(213, 168, 117, .32); outline-offset: 4px; }
+    .btn:active { transform: translateY(0); }
+    .btn-secondary { color: var(--ink); border: 1px solid rgba(239,208,168,.3); background: rgba(239,208,168,.08); box-shadow: none; }
+    .btn-secondary:hover { background: rgba(239,208,168,.15); box-shadow: none; }
+    button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #efd0a8; outline-offset: 4px; }
+    button:disabled, .btn[aria-disabled="true"] { opacity: .55; pointer-events: none; }
 
     header { padding: 26px 0; }
     nav { display: flex; align-items: center; justify-content: space-between; }
@@ -140,7 +152,7 @@
     .mock-bar span { display: block; width: 82%; height: 100%; background: linear-gradient(90deg, var(--violet), var(--peach)); }
     @keyframes float { 50% { transform: rotate(-1deg) translateY(-11px); } }
 
-    section { padding: 105px 0; }
+    section { padding: var(--space-2xl) 0; }
     .about-grid { display: grid; grid-template-columns: .68fr 1.32fr; gap: 72px; align-items: center; }
     .portrait-card {
       width: min(100%, 350px);
@@ -213,13 +225,14 @@
     .check-panel h3 { margin-bottom: 8px; font-family: "Unbounded", sans-serif; font-size: clamp(23px, 3vw, 34px); }
     .check-lead { margin-bottom: 24px; color: var(--muted); }
     .check-list { display: grid; gap: 10px; }
-    .check-item { display: flex; gap: 13px; align-items: flex-start; padding: 14px 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.025); cursor: pointer; transition: background .25s ease, border-color .25s ease, transform .25s ease; }
+    .check-item { display: flex; min-height: 52px; gap: 13px; align-items: center; padding: 14px 15px; border: 1px solid var(--line); border-radius: 15px; background: rgba(255,255,255,.025); cursor: pointer; transition: background .25s ease, border-color .25s ease, transform .25s ease; }
     .check-item:hover { transform: translateX(4px); border-color: rgba(169,140,255,.32); }
     .check-item:has(input:checked) { border-color: rgba(93,195,139,.34); background: rgba(93,195,139,.08); }
     .check-item input { position: absolute; opacity: 0; pointer-events: none; }
     .custom-check { flex: 0 0 auto; display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid rgba(217,207,238,.28); border-radius: 7px; color: transparent; background: #17121d; transition: .25s ease; }
     .custom-check::after { content: "✓"; font-size: 14px; font-weight: 900; }
     .check-item input:checked + .custom-check { color: #fff; border-color: #5dc38b; background: #429b6b; transform: scale(1.05); }
+    .check-item input:focus-visible + .custom-check { outline: 3px solid #efd0a8; outline-offset: 3px; }
     .check-text { color: #e7ddf2; font-size: 14px; font-weight: 700; }
     .score-box { display: flex; flex-direction: column; justify-content: center; min-height: 100%; padding: 30px; border-radius: 24px; background: radial-gradient(circle at 80% 10%, rgba(169,140,255,.23), transparent 45%), rgba(169,140,255,.08); }
     .score-label { color: var(--muted); font-size: 13px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
@@ -228,15 +241,16 @@
     .score-message { margin-bottom: 24px; color: #d9cfe6; font-size: 16px; }
     .score-box .btn { align-self: flex-start; }
 
-    .portfolio { padding-bottom: 120px; }
+    .portfolio { padding-bottom: var(--space-2xl); }
     .portfolio-head { display: flex; justify-content: space-between; gap: 36px; align-items: flex-end; margin-bottom: 44px; }
     .portfolio-head .section-head { margin-bottom: 0; }
     .portfolio-note { max-width: 310px; margin: 0 0 8px; color: var(--muted); }
     .works-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
     .work-card { position: relative; aspect-ratio: 3 / 4; min-height: 0; margin: 0; overflow: hidden; border-radius: 26px; background: #ded7e9; box-shadow: 0 15px 44px rgba(59,38,94,.10); }
-    .work-card img { display: block; width: 100%; height: 100%; position: absolute; inset: 0; object-fit: cover; transition: transform .55s cubic-bezier(.2,.8,.2,1); }
+    .work-open { position: absolute; inset: 0; width: 100%; padding: 0; overflow: hidden; border: 0; color: inherit; background: transparent; cursor: zoom-in; }
+    .work-card img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .55s cubic-bezier(.2,.8,.2,1); }
     .work-card:hover img { transform: scale(1.035); }
-    .work-card figcaption { position: absolute; inset: auto 15px 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.35); border-radius: 16px; color: #fff; background: rgba(27,20,37,.72); backdrop-filter: blur(12px); font-size: 13px; font-weight: 800; opacity: 0; transform: translateY(8px); transition: .3s ease; }
+    .work-card figcaption { position: absolute; inset: auto 15px 15px; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 14px 16px; border: 1px solid rgba(255,255,255,.35); border-radius: 16px; color: #fff; background: rgba(27,20,37,.72); backdrop-filter: blur(12px); font-size: 13px; font-weight: 800; opacity: 0; pointer-events: none; transform: translateY(8px); transition: .3s ease; }
     .work-card:hover figcaption { opacity: 1; transform: none; }
     .work-card figcaption span:last-child { color: rgba(255,255,255,.65); font-weight: 600; }
 
@@ -249,6 +263,11 @@
     .case-label { display: inline-flex; margin-bottom: 23px; padding: 7px 12px; border-radius: 999px; color: #d9cdff; background: rgba(169,140,255,.12); font-size: 12px; font-weight: 800; }
     .case-card h3 { max-width: 420px; margin-bottom: 18px; font-family: "Unbounded", sans-serif; font-size: clamp(22px, 2.6vw, 29px); }
     .case-card p { position: relative; max-width: 510px; margin-bottom: 22px; color: var(--muted); font-size: 16px; }
+    .case-detail { position: relative; padding-top: 15px; border-top: 1px solid var(--line); }
+    .case-detail + .case-detail { margin-top: 16px; }
+    .case-detail strong { display: block; margin-bottom: 7px; color: var(--peach); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
+    .case-detail p { margin-bottom: 0; }
+    .case-detail ul { display: grid; gap: 6px; margin: 0; padding-left: 20px; color: var(--muted); font-size: 15px; }
     .case-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
     .case-list li { padding: 8px 11px; border: 1px solid var(--line); border-radius: 11px; color: #eadff1; font-size: 12px; font-weight: 700; }
 
@@ -259,9 +278,10 @@
     .price-card { position: relative; display: flex; min-height: 100%; padding: 30px; overflow: hidden; border: 1px solid var(--line); border-radius: 28px; background: linear-gradient(145deg, rgba(47,37,61,.94), rgba(28,22,37,.96)); box-shadow: 0 18px 55px rgba(0,0,0,.2); transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease; flex-direction: column; }
     .price-card:hover { transform: translateY(-8px); border-color: rgba(169,140,255,.42); box-shadow: 0 28px 70px rgba(0,0,0,.3); }
     .price-card.featured { border-color: rgba(255,173,134,.42); background: linear-gradient(145deg, rgba(89,56,83,.96), rgba(43,30,65,.98)); }
-    .price-card.featured::before { content: "Популярный"; position: absolute; right: 18px; top: 18px; padding: 6px 10px; border-radius: 999px; color: #25182f; background: var(--peach); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
+    .price-card.featured::before { content: "Основной формат"; position: absolute; right: 18px; top: 18px; padding: 6px 10px; border-radius: 999px; color: #25182f; background: var(--peach); font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; }
     .price-kicker { margin-bottom: 13px; color: var(--violet); font-size: 12px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; }
     .price-card h3 { padding-right: 72px; font-size: 24px; }
+    .price-card.featured h3 { padding-right: 130px; }
     .price { margin: 8px 0 20px; font-family: "Unbounded", sans-serif; font-size: clamp(30px, 3vw, 40px); line-height: 1; }
     .price small { color: var(--muted); font-family: "Manrope", sans-serif; font-size: 13px; font-weight: 700; }
     .price-list { display: grid; gap: 11px; margin: 0 0 26px; padding: 0; color: #ddd4e8; list-style: none; }
@@ -328,6 +348,22 @@
     .cta-box h2 { max-width: 770px; }
     .cta-box p { max-width: 600px; margin-bottom: 30px; color: rgba(255,255,255,.76); font-size: 19px; }
     .cta-box .btn { color: var(--violet-dark); background: #fff; box-shadow: none; }
+
+    .lightbox {
+      position: fixed;
+      z-index: 100;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      border: 0;
+      background: rgba(14,10,8,.88);
+      backdrop-filter: blur(12px);
+    }
+    .lightbox[hidden] { display: none; }
+    .lightbox-image { display: block; max-width: min(92vw, 760px); max-height: 88vh; border-radius: 22px; box-shadow: 0 28px 90px rgba(0,0,0,.55); object-fit: contain; }
+    .lightbox-close { position: fixed; z-index: 1; top: 18px; right: 18px; display: grid; width: 48px; height: 48px; place-items: center; border: 1px solid rgba(255,255,255,.25); border-radius: 50%; color: #fff; background: rgba(38,27,21,.92); font: inherit; font-size: 25px; cursor: pointer; }
+    body.lightbox-open { overflow: hidden; }
 
     footer { padding: 35px 0 44px; }
     .footer-inner { display: flex; justify-content: space-between; gap: 20px; color: var(--muted); font-size: 13px; }
@@ -421,7 +457,7 @@
       .hero-brand { width: 100%; margin-bottom: 28px; padding: 4px; border-radius: 20px; }
       .hero-brand img { border-radius: 16px; }
       h1 { font-size: clamp(38px, 12vw, 56px); }
-      section { padding: 76px 0; }
+      section { padding: var(--space-xl) 0; }
       .hero-actions, .btn { width: 100%; }
       .hero-note { justify-content: center; width: 100%; }
       .floating-card { left: 14px; right: 14px; width: auto; }
@@ -430,6 +466,8 @@
       .works-grid { grid-template-columns: 1fr; }
       .work-card { width: min(100%, 420px); margin-inline: auto; border-radius: 22px; }
       .work-card figcaption { opacity: 1; transform: none; }
+      .lightbox { padding: 14px; }
+      .lightbox-image { max-width: 96vw; max-height: 84vh; border-radius: 16px; }
       .process-grid { grid-template-columns: 1fr; }
       .step { min-height: auto; }
       .included { padding: 25px; }
@@ -439,7 +477,8 @@
       body { padding-bottom: 78px; }
       .contact-dock { left: auto; right: 14px; top: auto; bottom: 14px; transform: none; }
       .contact-toggle { display: flex; }
-      .contact-panel { position: absolute; right: 0; bottom: 62px; display: none; width: min(300px, calc(100vw - 28px)); padding: 12px; border: 1px solid var(--line); border-radius: 22px; background: rgba(25,19,33,.98); box-shadow: 0 22px 60px rgba(0,0,0,.5); }
+      .contact-panel { position: absolute; right: 0; bottom: 62px; display: none; width: min(300px, calc(100vw - 28px)); padding: 12px; border: 1px solid var(--line); border-radius: 22px; background: rgba(38,27,21,.99); box-shadow: 0 22px 60px rgba(0,0,0,.5); }
+      .price-card.featured h3 { padding-right: 118px; }
       .contact-dock.open .contact-panel { display: grid; }
       .contact-pill { min-width: 0; padding: 10px; border-radius: 15px; }
       .contact-web-link { max-width: none; padding: 3px 4px; }
@@ -467,10 +506,10 @@
       <div class="container hero-copy">
         <div class="hero-brand"><img src="assets/angelina-logo.webp" alt="Анжелина Кот — визуальный редактор маркетплейсов"></div>
         <p class="eyebrow">Визуальный редактор маркетплейсов</p>
-        <h1>Карточки товаров <span class="gradient-text">под ключ</span> для Wildberries и Ozon.</h1>
-        <p class="hero-subtitle">Разберусь в товаре, разработаю структуру, тексты, обложку и инфослайды. Можно обратиться без готового ТЗ.</p>
+        <h1>Карточки товаров <span class="gradient-text">под ключ</span> для Wildberries и Ozon</h1>
+        <p class="hero-subtitle">Обложка, структура, тексты и инфографика для Wildberries и Ozon. <span class="soft-accent">Можно без готового ТЗ.</span></p>
         <div class="hero-actions">
-          <a class="btn" href="#checklist">Получить оценку карточки</a>
+          <a class="btn" href="tg://resolve?domain=anjelina_k">Отправить карточку на разбор</a>
           <div class="hero-note"><span></span> Беру новые проекты</div>
         </div>
         <div class="usp-row" aria-label="Ключевые преимущества"><span class="usp-chip">WB и Ozon</span><span class="usp-chip">Можно без ТЗ</span><span class="usp-chip">От структуры до готовых файлов</span></div>
@@ -483,61 +522,68 @@
       </div>
     </section>
 
-    <section id="about">
-      <div class="container about-grid">
-        <div class="portrait-card">
-          <img src="assets/angelina-kot.webp" alt="Анжелина Кот — визуальный редактор маркетплейсов">
-          <div class="portrait-caption"><strong>Анжелина Кот</strong><span>визуал · структура · логика карточки</span></div>
-        </div>
-        <div class="about-text">
-          <p class="eyebrow">Обо мне</p>
-          <h2>Работаю с карточкой <span class="gradient-text">целиком</span> — от обложки до логики слайдов.</h2>
-          <p>Если карточка вроде бы оформлена нормально, но в выдаче её не выбирают, причина часто не в самом товаре, а в обложке, смыслах и визуальной иерархии.</p>
-          <p>Я привожу карточку в понятное и конкурентное состояние, чтобы покупателю было ясно, что это за товар и почему стоит выбрать именно его.</p>
-          <div class="signature">Моя зона ответственности — визуал и структура карточки.</div>
-        </div>
-      </div>
-    </section>
-
     <section class="portfolio" id="portfolio">
       <div class="container">
         <div class="portfolio-head">
           <div class="section-head">
             <p class="eyebrow">Избранные проекты</p>
-            <h2>Карточки, которые хочется <span class="gradient-text">рассматривать</span></h2>
+            <h2>Примеры карточек для <span class="gradient-text">разных ниш</span></h2>
           </div>
-          <p class="portfolio-note">Обложки для разных ниш: декор, посуда, подарки и товары для дома.</p>
+          <p class="portfolio-note">Разные товары, задачи и визуальные решения.</p>
         </div>
         <div class="works-grid">
-          <figure class="work-card"><img src="assets/cover-glasses.webp" alt="Обложка карточки набора бокалов" loading="lazy"><figcaption><span>Набор бокалов</span><span>премиальная подача</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-aroma-candles.webp" alt="Обложка карточки набора аромасвечей" loading="lazy"><figcaption><span>Аромасвечи</span><span>подарочный набор</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-carved-candle.webp" alt="Обложка карточки резной свечи" loading="lazy"><figcaption><span>Резная свеча</span><span>ручная работа</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-perfume-bottle.webp" alt="Обложка карточки парфюмерного флакона" loading="lazy"><figcaption><span>Флакон для духов</span><span>подарки</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-bedding.webp" alt="Обложка карточки постельного белья" loading="lazy"><figcaption><span>Постельное бельё</span><span>товары для дома</span></figcaption></figure>
-          <figure class="work-card"><img src="assets/cover-glass-mug.webp" alt="Обложка карточки стеклянной кружки" loading="lazy"><figcaption><span>Стеклянная кружка</span><span>посуда</span></figcaption></figure>
+          <figure class="work-card"><button class="work-open" type="button" aria-label="Увеличить обложку карточки набора бокалов" data-full="assets/cover-glasses.webp"><img src="assets/cover-glasses.webp" alt="Обложка карточки набора бокалов" loading="lazy"></button><figcaption><span>Набор бокалов</span><span>премиальная подача</span></figcaption></figure>
+          <figure class="work-card"><button class="work-open" type="button" aria-label="Увеличить обложку карточки набора аромасвечей" data-full="assets/cover-aroma-candles.webp"><img src="assets/cover-aroma-candles.webp" alt="Обложка карточки набора аромасвечей" loading="lazy"></button><figcaption><span>Аромасвечи</span><span>подарочный набор</span></figcaption></figure>
+          <figure class="work-card"><button class="work-open" type="button" aria-label="Увеличить обложку карточки резной свечи" data-full="assets/cover-carved-candle.webp"><img src="assets/cover-carved-candle.webp" alt="Обложка карточки резной свечи" loading="lazy"></button><figcaption><span>Резная свеча</span><span>ручная работа</span></figcaption></figure>
+          <figure class="work-card"><button class="work-open" type="button" aria-label="Увеличить обложку карточки парфюмерного флакона" data-full="assets/cover-perfume-bottle.webp"><img src="assets/cover-perfume-bottle.webp" alt="Обложка карточки парфюмерного флакона" loading="lazy"></button><figcaption><span>Флакон для духов</span><span>подарки</span></figcaption></figure>
+          <figure class="work-card"><button class="work-open" type="button" aria-label="Увеличить обложку карточки постельного белья" data-full="assets/cover-bedding.webp"><img src="assets/cover-bedding.webp" alt="Обложка карточки постельного белья" loading="lazy"></button><figcaption><span>Постельное бельё</span><span>товары для дома</span></figcaption></figure>
+          <figure class="work-card"><button class="work-open" type="button" aria-label="Увеличить обложку карточки стеклянной кружки" data-full="assets/cover-glass-mug.webp"><img src="assets/cover-glass-mug.webp" alt="Обложка карточки стеклянной кружки" loading="lazy"></button><figcaption><span>Стеклянная кружка</span><span>посуда</span></figcaption></figure>
         </div>
       </div>
     </section>
 
-    <section class="advantages">
+    <section class="checklist-section" id="checklist" aria-labelledby="checklist-title">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow">Почему со мной</p>
-          <h2>Что меняется после <span class="gradient-text">переработки карточки</span></h2>
+          <p class="eyebrow">Интерактивная проверка</p>
+          <h2 id="checklist-title">Проверьте свою <span class="gradient-text">карточку</span></h2>
+          <p class="cases-intro">Отметьте пункты, которые уже выполнены. Результат пересчитается автоматически.</p>
         </div>
-        <div class="cards">
-          <article class="card">
-            <div class="card-visual"><img src="assets/cover-carved-candle.webp" alt="Яркая карточка резной свечи" loading="lazy"><span class="visual-badge">смысл с первого взгляда</span></div>
-            <div class="card-body"><h3>Смысл считывается сразу</h3><p>Обложка быстро объясняет, что перед покупателем, и помогает товару не потеряться среди конкурентов.</p></div>
-          </article>
-          <article class="card">
-            <div class="card-visual"><img src="assets/cover-glass-mug.webp" alt="Карточка товара с наглядной выгодой" loading="lazy"><span class="visual-badge">выгода на первом плане</span><span class="mini-chart" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
-            <div class="card-body"><h3>Логика вместо перегруза</h3><p>Выстраиваю информацию по приоритету: главное видно сразу, детали раскрываются последовательно.</p></div>
-          </article>
-          <article class="card">
-            <div class="card-visual"><img src="assets/cover-glasses.webp" alt="Премиальный единый стиль карточек бренда" loading="lazy"><span class="visual-badge">единый визуальный код</span></div>
-            <div class="card-body"><h3>Единая система бренда</h3><p>Связываю карточки общим визуальным языком, чтобы ассортимент выглядел цельно и узнаваемо.</p></div>
-          </article>
+        <div class="check-panel">
+          <div>
+            <h3>Чек‑лист вашей карточки</h3>
+            <p class="check-lead">Шесть признаков понятной и цельной серии слайдов.</p>
+            <div class="check-list">
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Первый экран понятно объясняет товар</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Главная выгода считывается за 2–3 секунды</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Текст читается с телефона</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Каждый слайд отвечает на один вопрос</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Закрыты основные сомнения покупателя</span></label>
+              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Все слайды выглядят как единая система</span></label>
+            </div>
+          </div>
+          <div class="score-box" aria-live="polite">
+            <span class="score-label">Готовность карточки</span>
+            <div class="score"><span id="score-value">0</span>/6</div>
+            <p class="score-message" id="score-message">Начните отмечать пункты — и увидите, где карточка теряет ясность.</p>
+            <a class="btn" href="tg://resolve?domain=anjelina_k">Отправить карточку на разбор</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="diagnostic" aria-labelledby="diagnostic-title">
+      <div class="container">
+        <div class="diagnostic-head">
+          <p class="eyebrow">Типичные ошибки</p>
+          <h2 id="diagnostic-title">Что мешает покупателю <span class="gradient-text">быстро понять товар</span></h2>
+          <p class="hero-subtitle">Даже хорошие фотографии не помогают, если главное теряется среди текста и деталей.</p>
+        </div>
+        <div class="myths-grid">
+          <article class="myth"><span class="myth-label">× Ошибка 01</span><h3>Чем больше текста — тем лучше</h3><p>Покупатель не читает всё подряд, а быстро просматривает экран. Главный смысл должен быть заметен сразу.</p></article>
+          <article class="myth"><span class="myth-label">× Ошибка 02</span><h3>Главное — сделать красиво</h3><p>Красивое оформление привлекает внимание, но без структуры покупателю сложно понять преимущества товара.</p></article>
+          <article class="myth"><span class="myth-label">× Ошибка 03</span><h3>Можно скопировать конкурента</h3><p>Вместе с чужим дизайном легко повторить чужие ошибки. Карточка должна раскрывать именно ваш товар.</p></article>
+          <article class="myth"><span class="myth-label">× Ошибка 04</span><h3>Достаточно общих обещаний</h3><p>Фразы вроде «лучшее качество» мало объясняют. Полезнее показать материал, размер, комплектацию и сценарий использования.</p></article>
         </div>
       </div>
     </section>
@@ -552,52 +598,17 @@
           <div class="process-offer">Карточка — это не просто картинка. Это система, которая помогает покупателю понять, что за товар перед ним и почему стоит выбрать именно его.</div>
         </div>
         <div class="process-grid">
-          <article class="step"><h3>Вы присылаете товар</h3><p>Достаточно ссылки, фотографий или короткого описания — разберусь в продукте и задам только необходимые вопросы.</p></article>
-          <article class="step"><h3>Анализирую выдачу</h3><p>Изучаю конкурентов, визуальные приёмы ниши и причины, по которым покупатель выбирает одну карточку среди десятков.</p></article>
-          <article class="step"><h3>Выстраиваю структуру</h3><p>Продумываю путь: внимание → доверие → выгоды → ответы на возражения → повод оформить заказ.</p></article>
-          <article class="step"><h3>Создаю первый экран</h3><p>Формулирую цепляющий оффер и собираю обложку, которая выделяет товар без визуального шума.</p></article>
-          <article class="step"><h3>Собираю инфографику</h3><p>Перевожу характеристики на язык пользы и оформляю слайды под требования Wildberries или Ozon.</p></article>
-          <article class="step"><h3>Передаю готовый результат</h3><p>Вы получаете карточку, готовую к размещению. При необходимости вношу согласованные правки.</p></article>
+          <article class="step"><h3>Вы присылаете товар</h3><p>Ссылка, фотографии, характеристики или другие материалы.</p></article>
+          <article class="step"><h3>Я разбираюсь в задаче</h3><p>Изучаю товар, аудиторию и текущую карточку.</p></article>
+          <article class="step"><h3>Разрабатываю структуру</h3><p>Определяю порядок слайдов и основные смыслы.</p></article>
+          <article class="step"><h3>Готовлю тексты</h3><p>Заголовки, преимущества, офферы и пояснения.</p></article>
+          <article class="step"><h3>Создаю визуал</h3><p>Оформляю обложку и дополнительные инфослайды.</p></article>
+          <article class="step"><h3>Согласовываем</h3><p>Показываю результат и вношу согласованные правки.</p></article>
+          <article class="step"><h3>Передаю готовый комплект</h3><p>Файлы готовы для загрузки на маркетплейс.</p></article>
         </div>
         <div class="included">
-          <div><h3>Всё необходимое — уже внутри</h3><p class="trust-note">Работаю под ключ: вам не придётся дописывать тексты или переделывать структуру самостоятельно.</p></div>
-          <div class="included-list"><span>Обложка карточки</span><span>2–6 инфослайдов</span><span>Тексты для слайдов</span><span>Инфографика</span><span>Логика подачи</span><span>Файлы под требования площадки</span></div>
-        </div>
-      </div>
-    </section>
-
-    <section class="diagnostic" id="checklist">
-      <div class="container">
-        <div class="diagnostic-head">
-          <p class="eyebrow">Что мешает карточке продавать</p>
-          <h2>Хорошего фото <span class="gradient-text">недостаточно</span></h2>
-          <p class="hero-subtitle">Проверьте, не теряет ли ваша карточка внимание покупателя из-за типичных ошибок.</p>
-        </div>
-        <div class="myths-grid">
-          <article class="myth"><span class="myth-label">× Ошибка 01</span><h3>Чем больше текста — тем лучше</h3><p>Покупатель не читает, а сканирует экран за секунды. Если главная выгода не видна сразу — карточку пролистывают.</p></article>
-          <article class="myth"><span class="myth-label">× Ошибка 02</span><h3>Главное — сделать красиво</h3><p>Красота помогает привлечь внимание, но продаёт структура: понятный оффер, аргументы и ответы на вопросы покупателя.</p></article>
-          <article class="myth"><span class="myth-label">× Ошибка 03</span><h3>Можно скопировать конкурента</h3><p>Вместе с чужим дизайном легко скопировать чужие ошибки. Карточка должна раскрывать именно ваш товар и вашу аудиторию.</p></article>
-          <article class="myth"><span class="myth-label">× Ошибка 04</span><h3>«Лучшее качество» уже продаёт</h3><p>Общие фразы не вызывают доверия. Работает конкретика: материал, размер, сценарий использования и измеримая польза.</p></article>
-        </div>
-        <div class="check-panel">
-          <div>
-            <h3>Чек‑лист вашей карточки</h3>
-            <p class="check-lead">Отметьте пункты, которые уже есть. Результат изменится автоматически.</p>
-            <div class="check-list">
-              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Первый экран понятно объясняет, что это за товар</span></label>
-              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Главная выгода считывается за 2–3 секунды</span></label>
-              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Текст короткий, конкретный и легко читается с телефона</span></label>
-              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Каждый слайд отвечает на один вопрос покупателя</span></label>
-              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Закрыты основные сомнения: размер, материал, комплектация</span></label>
-              <label class="check-item"><input type="checkbox"><span class="custom-check"></span><span class="check-text">Все слайды выглядят как единая система бренда</span></label>
-            </div>
-          </div>
-          <div class="score-box" aria-live="polite">
-            <span class="score-label">Готовность карточки</span>
-            <div class="score"><span id="score-value">0</span>/6</div>
-            <p class="score-message" id="score-message">Начните отмечать пункты — и увидите, где карточка теряет покупателя.</p>
-            <a class="btn" href="tg://resolve?domain=anjelina_k">Получить разбор</a>
-          </div>
+          <div><h3>Что входит в работу</h3><p class="trust-note">Компактный комплект для понятной и цельной карточки.</p></div>
+          <div class="included-list"><span>Анализ товара и задачи</span><span>Структура карточки</span><span>Тексты</span><span>Оформление обложки</span><span>Дополнительные инфослайды</span><span>Согласованные правки</span><span>Готовые файлы для загрузки</span></div>
         </div>
       </div>
     </section>
@@ -613,15 +624,55 @@
           <article class="case-card">
             <span class="case-label">Рукодельный магазин</span>
             <h3>Новые карточки для товаров ручной работы</h3>
-            <p>Создала новые карточки для ассортимента магазина: свечей, саше, подсвечников и других изделий ручной работы.</p>
-            <ul class="case-list"><li>Новые карточки</li><li>Свечи и саше</li><li>Подсвечники</li></ul>
+            <div class="case-detail"><strong>Задача</strong><p>Оформить с нуля серию карточек для свечей, саше, подсвечников и других изделий ручной работы.</p></div>
+            <div class="case-detail"><strong>Что сделано</strong><ul><li>разработана структура слайдов;</li><li>подготовлены тексты;</li><li>созданы обложки и инфографика;</li><li>ассортимент объединён общей стилистикой.</li></ul></div>
+            <div class="case-detail"><strong>Результат</strong><p>Информация о каждом товаре распределена по последовательным слайдам, а карточки выглядят как единая серия.</p></div>
           </article>
           <article class="case-card">
             <span class="case-label">Товары для хозяйства</span>
             <h3>Полное обновление карточек магазина</h3>
-            <p>Обновила карточки товаров для септиков, туалетов и сараев, включая подстилки: переработала визуал, тексты, описания и заголовки.</p>
-            <ul class="case-list"><li>Визуал карточек</li><li>Тексты и описания</li><li>Заголовки</li></ul>
+            <div class="case-detail"><strong>Задача</strong><p>Обновить старую серию и сделать информацию о товарах для септиков, туалетов и сараев понятнее.</p></div>
+            <div class="case-detail"><strong>Что сделано</strong><ul><li>переработана обложка;</li><li>сокращены тексты;</li><li>информация разделена по отдельным слайдам;</li><li>выстроена единая визуальная система.</li></ul></div>
+            <div class="case-detail"><strong>Результат</strong><p>Карточки быстрее считываются, а характеристики и назначение товаров логично распределены по серии.</p></div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="advantages" aria-labelledby="advantages-title">
+      <div class="container">
+        <div class="section-head">
+          <h2 id="advantages-title">Что меняется после <span class="gradient-text">переработки карточки</span></h2>
+        </div>
+        <div class="cards">
+          <article class="card">
+            <div class="card-visual"><img src="assets/cover-carved-candle.webp" alt="Карточка резной свечи с понятным первым экраном" loading="lazy"><span class="visual-badge">главное видно сразу</span></div>
+            <div class="card-body"><h3>Быстрее считывается главное</h3><p>Первый экран понятно показывает товар и его ключевую особенность.</p></div>
+          </article>
+          <article class="card">
+            <div class="card-visual"><img src="assets/cover-glass-mug.webp" alt="Карточка стеклянной кружки с последовательной подачей" loading="lazy"><span class="visual-badge">один вопрос — один слайд</span></div>
+            <div class="card-body"><h3>Появляется логика</h3><p>Информация распределяется по слайдам без перегруза и повторов.</p></div>
+          </article>
+          <article class="card">
+            <div class="card-visual"><img src="assets/cover-glasses.webp" alt="Карточка набора бокалов в единой визуальной системе" loading="lazy"><span class="visual-badge">единый визуальный код</span></div>
+            <div class="card-body"><h3>Серия выглядит цельно</h3><p>Покупателю проще последовательно разобраться в характеристиках и преимуществах товара.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="container about-grid">
+        <div class="portrait-card">
+          <img src="assets/angelina-kot.webp" alt="Анжелина Кот — визуальный редактор маркетплейсов" loading="lazy">
+          <div class="portrait-caption"><strong>Анжелина Кот</strong><span>визуал · структура · логика карточки</span></div>
+        </div>
+        <div class="about-text">
+          <p class="eyebrow">Обо мне</p>
+          <h2>Работаю с карточкой <span class="gradient-text">целиком</span> — от обложки до логики слайдов.</h2>
+          <p>Если товар сложно понять с первого взгляда, разбираю обложку, смыслы и визуальную иерархию.</p>
+          <p>Моя задача — сделать информацию последовательной и понятной покупателю без неподтверждённых обещаний.</p>
+          <div class="signature">Моя зона ответственности — визуал и структура карточки.</div>
         </div>
       </div>
     </section>
@@ -643,7 +694,7 @@
               <li>оценка читаемости и визуала</li>
               <li>письменные рекомендации по приоритетам</li>
             </ul>
-            <a class="btn" href="tg://resolve?domain=anjelina_k">Заказать разбор</a>
+            <a class="btn" href="tg://resolve?domain=anjelina_k">Отправить карточку на разбор</a>
           </article>
           <article class="price-card">
             <p class="price-kicker">Для небольшой задачи</p>
@@ -655,7 +706,7 @@
               <li>тексты для инфографики</li>
               <li>2 круга согласованных правок</li>
             </ul>
-            <a class="btn" href="tg://resolve?domain=anjelina_k">Обсудить задачу</a>
+            <a class="btn btn-secondary" href="tg://resolve?domain=anjelina_k">Обсудить карточку</a>
           </article>
           <article class="price-card featured">
             <p class="price-kicker">Полное оформление</p>
@@ -668,7 +719,7 @@
               <li>тексты и инфографика</li>
               <li>2 круга согласованных правок</li>
             </ul>
-            <a class="btn" href="tg://resolve?domain=anjelina_k">Рассчитать проект</a>
+            <a class="btn" href="#calculator">Рассчитать проект</a>
           </article>
         </div>
         <div class="extras" aria-label="Дополнительные услуги">
@@ -712,8 +763,8 @@
             <span>Предварительный ориентир</span>
             <div class="calc-total" id="calc-total">от 2 600 ₽</div>
             <p class="calc-summary" id="calc-summary">Пакет «Старт»: 3 слайда.</p>
-            <a class="btn" href="tg://resolve?domain=anjelina_k">Уточнить стоимость</a>
-            <p class="calc-disclaimer">Расчёт предварительный. Итоговую цену согласуем до начала работы.</p>
+            <a class="btn btn-secondary" href="tg://resolve?domain=anjelina_k">Обсудить карточку</a>
+            <p class="calc-disclaimer">Расчёт предварительный. Итоговую стоимость согласуем до начала работы.</p>
           </div>
         </div>
         <p class="pricing-note">Точная стоимость зависит от сложности товара, качества исходных материалов и объёма обработки. Итоговую цену, срок, условия оплаты и состав правок согласуем до начала работы.</p>
@@ -775,12 +826,17 @@
       <div class="container">
         <div class="cta-box">
           <h2>Карточка сейчас <span style="color:#ffd4bc">не работает?</span> Посмотрим, почему.</h2>
-          <p>Пришлите ссылку на товар — я посмотрю, есть ли смысл переработать визуал или причина, скорее всего, в другом.</p>
-          <a class="btn" href="tg://resolve?domain=anjelina_k">Написать в Telegram</a>
+          <p>Пришлите ссылку на товар. Я посмотрю, есть ли смысл перерабатывать карточку или проблема, скорее всего, находится не в визуале.</p>
+          <a class="btn" href="tg://resolve?domain=anjelina_k">Отправить карточку на разбор</a>
         </div>
       </div>
     </section>
   </main>
+
+  <div class="lightbox" id="portfolio-lightbox" role="dialog" aria-modal="true" aria-label="Увеличенное изображение проекта" hidden>
+    <button class="lightbox-close" type="button" aria-label="Закрыть изображение">×</button>
+    <img class="lightbox-image" src="" alt="">
+  </div>
 
   <aside class="contact-dock" id="contact-menu" aria-label="Быстрые контакты">
     <button class="contact-toggle" type="button" aria-expanded="false" aria-controls="contact-panel">Написать <span aria-hidden="true">✦</span></button>
@@ -808,13 +864,13 @@
     const scoreValue = document.getElementById('score-value');
     const scoreMessage = document.getElementById('score-message');
     const messages = [
-      'Начните отмечать пункты — и увидите, где карточка теряет покупателя.',
+      'Начните отмечать пункты — и увидите, где карточка теряет ясность.',
       'Сейчас карточка может быть непонятной с первого взгляда.',
       'Основа есть, но покупателю пока не хватает аргументов.',
       'Неплохой старт. Стоит усилить структуру и конкретику.',
       'Карточка уже убедительная — осталось убрать слабые места.',
       'Очень хороший результат. Проверьте последний пункт.',
-      'Отлично: карточка выглядит продуманной и готовой к продаже.'
+      'Отлично: информация выглядит продуманной и собрана в единую систему.'
     ];
     checks.forEach((check) => check.addEventListener('change', () => {
       const score = [...checks].filter((item) => item.checked).length;
@@ -859,6 +915,35 @@
       control.addEventListener('change', updateCalculator);
     });
     updateCalculator();
+
+    const lightbox = document.getElementById('portfolio-lightbox');
+    const lightboxImage = lightbox.querySelector('.lightbox-image');
+    const lightboxClose = lightbox.querySelector('.lightbox-close');
+    const workButtons = document.querySelectorAll('.work-open');
+    let lastFocusedWork = null;
+    const closeLightbox = () => {
+      lightbox.hidden = true;
+      lightboxImage.src = '';
+      lightboxImage.alt = '';
+      document.body.classList.remove('lightbox-open');
+      if (lastFocusedWork) lastFocusedWork.focus();
+    };
+    workButtons.forEach((button) => button.addEventListener('click', () => {
+      const preview = button.querySelector('img');
+      lastFocusedWork = button;
+      lightboxImage.src = button.dataset.full;
+      lightboxImage.alt = preview.alt;
+      lightbox.hidden = false;
+      document.body.classList.add('lightbox-open');
+      lightboxClose.focus();
+    }));
+    lightboxClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => {
+      if (event.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !lightbox.hidden) closeLightbox();
+    });
 
     const contactMenu = document.getElementById('contact-menu');
     const contactToggle = contactMenu.querySelector('.contact-toggle');
